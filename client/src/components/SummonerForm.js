@@ -1,14 +1,31 @@
+import { useState } from "react";
+
 const SummonerForm = () => {
+
+    const [summoner, setSummoner] = useState('');
+
+    const formSubmit = (e) => {
+        e.preventDefault();
+
+        fetch("/summonerPost", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({user: summoner}),
+        })
+        .then(res => res.json())
+        .then(res => console.log(res.message));
+    }
+
   return (
     <div>
-        <form>
+        <form onSubmit={formSubmit}>
             <div>
-                <label for="summonerName">
-                    Summoner Name:
-                </label>
+                <label htmlFor="summonerName">Summoner Name:</label>
             </div>
             <div>
-                <input type="text" id="summonerName"></input>
+                <input onChange={(e) => setSummoner(e.target.value)} type="text" id="summonerName"></input>
             </div>
             <div>
                 <input type="submit" value="Find Summoner"></input>
