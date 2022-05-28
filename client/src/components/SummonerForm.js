@@ -17,8 +17,7 @@ const SummonerForm = () => {
         })
         .then(res => res.json())
         .then(infoJson => {
-            setSumInfo({name: infoJson.name, sumLvl: infoJson.summonerLevel});
-            console.log(sumInfo.name);
+            setSumInfo({name: infoJson.name, sumLvl: infoJson.summonerLevel, sumIcon: infoJson.profileIconId});
         });
     }
 
@@ -37,6 +36,8 @@ const SummonerForm = () => {
         </form>
         <div>
             <p>{sumInfo.name ? sumInfo.name : ''}</p>
+            <img width= {sumInfo.sumIcon ? "100" : "0"} height= {sumInfo.sumIcon ? "100" : "0"} padding= {sumInfo.sumIcon ? "10" : "0"}
+            src={sumInfo.sumIcon ? `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${sumInfo.sumIcon}.png` : ''} alt=''/>
             <p>{sumInfo.sumLvl ? sumInfo.sumLvl : ''}</p>
         </div>
     </div>
