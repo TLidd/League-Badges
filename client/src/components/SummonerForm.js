@@ -2,7 +2,8 @@ import { useState } from "react";
 
 const SummonerForm = () => {
 
-    const [summoner, setSummoner] = useState('');
+    const [sumName, setSummoner] = useState('');
+    const [sumInfo, setSumInfo] = useState({});
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -12,10 +13,13 @@ const SummonerForm = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({user: summoner}),
+            body: JSON.stringify({user: sumName}),
         })
         .then(res => res.json())
-        .then(res => console.log(res.message));
+        .then(infoJson => {
+            setSumInfo({name: infoJson.name, sumLvl: infoJson.summonerLevel});
+            console.log(sumInfo.name);
+        });
     }
 
   return (
@@ -31,6 +35,10 @@ const SummonerForm = () => {
                 <input type="submit" value="Find Summoner"></input>
             </div>
         </form>
+        <div>
+            <p>{sumInfo.name ? sumInfo.name : ''}</p>
+            <p>{sumInfo.sumLvl ? sumInfo.sumLvl : ''}</p>
+        </div>
     </div>
   )
 }
