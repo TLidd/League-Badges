@@ -6,4 +6,13 @@ export function getSummoner(summonerName){
     .then(res => res.json());
 }
 
+export function getCurrentGame(summonerName){
+    return getSummoner(summonerName).then(data => {
+        fetch(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${data.id}?api_key=${apiCallKey}`)
+        .then(res => res.json())
+        .then(gameInfo => {
+            console.log(gameInfo);
+        })
+    })
+}
 

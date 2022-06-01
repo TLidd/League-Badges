@@ -14,8 +14,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{!data ? "Loading..." : data}</p>
-        <SummonerForm />
+        <p>{!data ? "Loading..." : <SummonerForm />}</p>
+        <div>
+          Team1
+        </div>
+        <div>
+          Team2
+        </div>
       </header>
     </div>
   );
