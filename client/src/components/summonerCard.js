@@ -1,4 +1,4 @@
-const summonerCard = (props) => {
+const SummonerCard = (props) => {
 
   return (
     <div>
@@ -15,4 +15,4 @@ const summonerCard = (props) => {
   )
 }
 
-export default summonerCard
+export default SummonerCard

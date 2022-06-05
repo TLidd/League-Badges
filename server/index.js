@@ -14,8 +14,12 @@ app.get('/api', (req, res) =>{
 
 app.post('/summonerPost', (req, res) =>{
   let sumName = req.body['user'];
-  //getSummoner(sumName).then(data => res.json(data));
-  getCurrentGame(sumName);
+  getSummoner(sumName).then(data => res.json(data));
+});
+
+app.post('/summonerGame', (req, res) => {
+  let sumName = req.body['user'];
+  getCurrentGame(sumName).then(data => {res.json(data)});
 });
 
 app.listen(PORT, () => {

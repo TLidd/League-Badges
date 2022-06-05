@@ -1,25 +1,43 @@
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import './App.css';
-import SummonerForm from "./components/SummonerForm";
+import SummonerLobby from "./components/SummonerLobby";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [lobby, setLobby] = useState(null);
+  const [sumName, setSummoner] = useState('');
 
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+  const formSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("/summonerGame", {
+      method: "POST" ,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({user: sumName}),
+    })
+    .then(res => res.json())
+    .then(data => {
+      setLobby(data)
+    });
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>{!data ? "Loading..." : <SummonerForm />}</p>
+        <form onSubmit={formSubmit}>
+            <div>
+                <label htmlFor="summonerName">Summoner Name:</label>
+            </div>
+            <div>
+                <input onChange={(e) => setSummoner(e.target.value)} type="text" id="summonerName"></input>
+            </div>
+            <div>
+                <input type="submit" value="Find Summoner"></input>
+            </div>
+        </form>
         <div>
-          Team1
-        </div>
-        <div>
-          Team2
+          {lobby ? <SummonerLobby lobbyList= {lobby} /> : ''}
         </div>
       </header>
     </div>
