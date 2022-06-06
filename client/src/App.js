@@ -18,7 +18,9 @@ function App() {
     })
     .then(res => res.json())
     .then(data => {
-      setLobby(data)
+      if(!data.hasOwnProperty('status')){
+        setLobby(data)
+      }
     });
   }
 

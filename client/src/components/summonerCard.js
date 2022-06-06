@@ -1,16 +1,15 @@
-const SummonerCard = (props) => {
-
+const SummonerCard = ({summoner}) => {
   return (
     <div>
         <div>
-            {props.summoner.summonerName}
+            {summoner.summonerName}
         </div>
         <div>
-            <img width= {props.summoner.profileIconId ? "100" : "0"} height= {props.summoner.profileIconId ? "100" : "0"} padding= {props.summoner.profileIconId ? "10" : "0"}
-            src={sumInfo.sumIcon ? `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${props.summoner.profileIconId}.png` : ''} alt=''/>
+            <img width="100" height="100" padding="10"
+            src={`http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${summoner.profileIconId}.png`} alt=''/>
         </div>
-            <img width= {props.summoner.profileIconId ? "100" : "0"} height= {props.summoner.profileIconId ? "100" : "0"} padding= {props.summoner.profileIconId ? "10" : "0"}
-            src={sumInfo.sumIcon ? `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${props.summoner.championId}0.jpg` : ''} alt=''/>
+            {/* <img width="100" height="100" padding="10"
+            src={`http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/Aatrox.png${summoner.championId}_0.jpg`} alt=''/> */}
     </div>
   )
 }
