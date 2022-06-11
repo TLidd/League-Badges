@@ -16,12 +16,25 @@ function App() {
       },
       body: JSON.stringify({user: sumName}),
     })
-    .then(res => res.json())
-    .then(data => {
-      if(!data.hasOwnProperty('status')){
-        setLobby(data)
+    .then(res => {
+      if(!res.ok){
+        throw Error("Error posting to server");
       }
-    });
+      return res.json();
+    })
+    .then(data => {
+      if('status' in data){
+        if(data.status.status_code === 404){
+          throw Error("No data found");
+        }
+      }
+      else{
+        setLobby(data);
+      }
+    })
+    .catch(err => {
+      console.log(err.message);
+    })
   }
 
   return (
