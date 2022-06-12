@@ -2,15 +2,15 @@ import { useEffect} from "react";
 
 const SummonerCard = ({summoner}) => {
 
-  // useEffect(() => {
-  //   fetch("/summonerHistory", {
-  //     method: "POST",
-  //     headers: {
-  //         'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({user: summoner.summonerName}),
-  //   })
-  // });
+  useEffect(() => {
+    fetch("/summonerHistory", {
+      method: "POST",
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({user: summoner.summonerName}),
+    })
+  });
 
   return (
     <div>
