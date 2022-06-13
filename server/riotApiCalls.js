@@ -31,22 +31,22 @@ export async function getPlayerHistory(summonerName){
     //get match data from each match id 
     //note when '{}' is used here the return needs to be explicit
     //the return is implicit if it is written like
-    // const responses = await Promise.all(Object.values(matchIds).map(matchId => 
+    // const matches = await Promise.all(Object.values(matchIds).map(matchId => 
     //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
     // ));
-    let responses = await Promise.all(Object.values(matchIds).map(matchId => {
+    let matches = await Promise.all(Object.values(matchIds).map(matchId => {
         return fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
     }))
     .catch(err => console.log(err));
 
-    let jsons = await Promise.all(responses.map(r => {
+    let matchjsons = await Promise.all(matches.map(r => {
         return r.json();
     }))
     .catch(err => console.log(err));
 
-    let player = new leaguePlayer(summonerName, jsons);
+    let player = new leaguePlayer(summonerName, matchjsons);
     player.processData();
     player.printData();
     
-    return jsons;
+    return matchjsons;
 }
