@@ -10,6 +10,7 @@ class leaguePlayer{
     wins = 0;
     losses = 0;
     totalVisionPoints = 0;
+    totalCSBadgePoints = 0;
 
     /*badges are to describe the players playstyle
           (0-2) represents the level the player is at. example of aggro
@@ -17,7 +18,7 @@ class leaguePlayer{
     badges = {
         "Aggro" : 0,
         "VisionPoints" : 0,
-        "CreepScore" : 0,
+        "CSBadgePoints" : 0,
         "Role" : "",
 
     }
@@ -34,8 +35,8 @@ class leaguePlayer{
                     if(match.info.gameMode == 'CLASSIC'){
                         this.rankedGames++;
                         this.calculateAggro(match.info.participants);
-                        this.calculateVision(match.info.participants);
-                        //this.calculateCreepScore(match.info.participants);
+                        this.totalVisionPoints += this.compareScoresToLobby(match.info.participants, 'visionScore');
+                        this.totalCSBadgePoints += this.compareScoresToLobby(match.info.participants, 'totalMinionsKilled');
                     }
                 }
             }
@@ -51,36 +52,6 @@ class leaguePlayer{
         }
     }
 
-    /* calculate how well the player wards (vision score, pink wards bought, wards killed) compared to the rest of the players in the lobby */
-    calculateVision(participants){
-        let visionLevel = [];
-        let summonerVisionScore;
-        participants.forEach(participant => {
-            if(participant.summonerName != this.name){
-                visionLevel.push(participant.visionScore);
-            }
-            else{
-                summonerVisionScore = participant.visionScore;
-            }
-        });
-
-        visionLevel.sort();
-
-        let index = visionLevel.findIndex(element => summonerVisionScore < element);
-
-        if(index == -1){
-            this.totalVisionPoints += 2;
-        }
-        else if(index >= 3 && index < 6){
-            this.totalVisionPoints += 1;
-        }
-        else if(index >= 6){
-            this.totalVisionPoints += 2;
-        }
-
-        //console.log(`Total Vision Points: ${this.totalVisionPoints}`);
-    }
-
     getTeam(participants){
         let index = participants.findIndex(participant => participant.summonerName == this.name);
         let teamNum = participants[index].teamId;
@@ -91,6 +62,43 @@ class leaguePlayer{
     getSummonerMatchInfo(participants){
         let summoner = participants.find(participant => participant.summonerName == this.name);
         return summoner;
+    }
+
+    /*takes a key of the summoner and compares it to the rest of the participants
+      for example visionScore can be passed into key (participant.visionScore)
+      and it will return 0 for being at the bottom of the lobby, 1 for in the middle, and
+      2 for being at the top or an above average warder. These will get averaged out for the
+      amount of games to get the official score.*/
+    compareScoresToLobby(participants, key){
+        let participantScores = [];
+        let summonerScore;
+        participants.forEach(participant => {
+            if(participant.summonerName != this.name){
+                participantScores.push(participant[key]);
+            }
+            else{
+                summonerScore = participant[key];
+            }
+        });
+
+        participantScores.sort( (a, b) => {
+            return a - b;
+        });
+
+        let index = participantScores.findIndex(element => summonerScore < element);
+
+        if(index == -1){
+            return 2;
+        }
+        else if(index >= 3 && index < 6){
+            return 1;
+        }
+        else if(index >= 6){
+            return 2;
+        }
+        else{
+            return 0;
+        }
     }
 
     getBadges(){
