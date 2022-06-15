@@ -28,46 +28,33 @@ testSummoner3.processData();
 
 describe("Total Ranked Games", () => {
     it("should be a number", () => {
-        expect(testSummoner1.rankedGames).toBe(30);
+        expect(testSummoner1.gamesPlayed).toBe(30);
     });
 });
 
 //testing the vision points function from match data
 describe("Summoner (wunkadiller) total vision badge points", () => {
     it("should be a number", () => {
-        expect(testSummoner1.totalVisionPoints).toBe(60);
+        expect(testSummoner1.matches.totalVisionPoints).toBe(30);
     });
 });
 
 describe("Summoner (Bavaqepe) total vision badge points", () => {
     it("should be a number", () => {
-        expect(testSummoner2.totalVisionPoints).toBe(0);
+        expect(testSummoner2.matches.totalVisionPoints).toBe(0);
     });
 });
 
 describe("Summoner (Beast Brawler) total vision badge points", () => {
     it("should be a number", () => {
-        expect(testSummoner3.totalVisionPoints).toBe(30);
-    });
-});
-
-//testing the badge function to get all the correct badges
-describe("Get summoner's badges", () => {
-    it("should be an object", () => {
-        let badges = {
-            "Aggro" : 0,
-            "VisionPoints" : 2,
-            "CSBadgePoints" : 0,
-            "Role" : "",
-        }
-        expect(testSummoner1.getBadges()).toEqual(badges);
+        expect(testSummoner3.matches.totalVisionPoints).toBe(0);
     });
 });
 
 //testing the first blood participation of the player who gets the first blood
 describe("Get summoner's FB participation", () => {
     it("should be a number", () => {
-        expect(testSummoner3.firstBloods).toBe(30);
+        expect(testSummoner3.matches.firstBloods).toBe(30);
     });
 })
 //testing the first blood participation of the player who assists the first blood
@@ -75,25 +62,32 @@ let fbAssistSummoner = new leaguePlayer("Poilroux", matchList);
 fbAssistSummoner.processData();
 describe("Get summoner's FB participation", () => {
     it("should be a number", () => {
-        expect(fbAssistSummoner.firstBloods).toBe(30);
+        expect(fbAssistSummoner.matches.firstBloods).toBe(30);
     });
 });
 
-//testing the total cs badge points before getting the badge number (0-2) based on amount of games
-describe("Summoner's creep point badge score", () => {
+//testing the total cs badge points 
+describe("Summoner's (wunkadiller) creep point badge score", () => {
     it("should be a number", () => {
-        expect(testSummoner1.totalCSBadgePoints).toBe(30);
+        expect(testSummoner1.matches.totalCSBadgePoints).toBe(30);
     });
 });
 
-describe("Summoner's creep point badge score", () => {
+describe("Summoner's (Bavaqepe) creep point badge score", () => {
     it("should be a number", () => {
-        expect(testSummoner2.totalCSBadgePoints).toBe(60);
+        expect(testSummoner2.matches.totalCSBadgePoints).toBe(60);
     });
 });
 
-describe("Summoner's creep point badge score", () => {
+describe("Summoner's (Beast Brawler) creep point badge score", () => {
     it("should be a number", () => {
-        expect(testSummoner3.totalCSBadgePoints).toBe(0);
+        expect(testSummoner3.matches.totalCSBadgePoints).toBe(0);
     });
 });
+
+//testing the total dmg to turrets badge points
+describe("Summoner's (wunkadiller) turret damage point badge score", () => {
+    it("should be a number", () => {
+        expect(testSummoner1.matches.turretDmgBadgePoints).toBe(0);
+    })
+})

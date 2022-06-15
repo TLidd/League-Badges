@@ -1,26 +1,37 @@
 class leaguePlayer{
     name = null;
     matchHistory = null;
-    rankedGames = 0;
-    kills = 0;
-    deaths = 0;
-    assists = 0;
-    firstBloods = 0;
-    wards = 0;
-    wins = 0;
-    losses = 0;
-    totalVisionPoints = 0;
-    totalCSBadgePoints = 0;
+    gamesPlayed = 0;
+
+    matches = {
+        kills : 0,
+        deaths : 0,
+        assists : 0,
+        firstBloods : 0,
+        wins : 0,
+        losses : 0,
+        totalVisionPoints : 0,
+        totalCSBadgePoints : 0,
+        turretDmgBadgePoints : 0,
+    }
+
+    playedRoles = {
+        "TOP" : 0,
+        "JUNGLE" : 0,
+        "MIDDLE" : 0,
+        "BOTTOM" : 0,
+        "UTILITY" : 0,
+    }
 
     /*badges are to describe the players playstyle
           (0-2) represents the level the player is at. example of aggro
           2 being a very aggressive player, 0 being a very passive player.*/
     badges = {
-        "Aggro" : 0,
-        "VisionPoints" : 0,
+        "fbAggressionPoints" : 0,
+        "visionPoints" : 0,
         "CSBadgePoints" : 0,
+        "turretDmgPoints" : 0,
         "Role" : "",
-
     }
     constructor(name, matchHistory){
         this.name = name;
@@ -31,14 +42,19 @@ class leaguePlayer{
     processData(){
         this.matchHistory.map(match => {
             if(match.hasOwnProperty('info')){
-                if(match.info.queueId == 420){
-                    if(match.info.gameMode == 'CLASSIC'){
-                        this.rankedGames++;
-                        this.calculateAggro(match.info.participants);
-                        this.totalVisionPoints += this.compareScoresToLobby(match.info.participants, 'visionScore');
-                        this.totalCSBadgePoints += this.compareScoresToLobby(match.info.participants, 'totalMinionsKilled');
-                    }
-                }
+                let playersList = match.info.participants;
+
+                this.matches.gamesPlayed++;
+                this.calculateAggro(playersList);
+
+                let summonerRole = this.getSummonerMatchInfo(playersList).teamPosition
+                this.playedRoles[summonerRole] += 1;
+
+                this.matches.totalVisionPoints += this.compareScoresToLobby(playersList, 'visionScore');
+                this.matches.totalCSBadgePoints += this.compareScoresToLobby(playersList, 'totalMinionsKilled');
+                this.matches.turretDmgBadgePoints += this.compareScoresToLobby(playersList, 'damageDealtToTurrets');
+
+                this.gamesPlayed++
             }
         })
     }
@@ -48,7 +64,7 @@ class leaguePlayer{
     calculateAggro(participants){
         let summoner = this.getSummonerMatchInfo(participants);
         if(summoner.firstBloodKill || summoner.firstBloodAssist){
-            this.firstBloods++;
+            this.matches.firstBloods++;
         }
     }
 
@@ -73,10 +89,8 @@ class leaguePlayer{
         let participantScores = [];
         let summonerScore;
         participants.forEach(participant => {
-            if(participant.summonerName != this.name){
-                participantScores.push(participant[key]);
-            }
-            else{
+            participantScores.push(participant[key]);
+            if(participant.summonerName == this.name){
                 summonerScore = participant[key];
             }
         });
@@ -86,29 +100,29 @@ class leaguePlayer{
         });
 
         let index = participantScores.findIndex(element => summonerScore < element);
+        if(index == -1) return 2;
 
-        if(index == -1){
+        let pointPercentage = (index - 1) / participantScores.length;
+
+        if(pointPercentage > .7){
             return 2;
         }
-        else if(index >= 3 && index < 6){
+        else if(pointPercentage >= .5 && pointPercentage <= .7){
             return 1;
-        }
-        else if(index >= 6){
-            return 2;
         }
         else{
             return 0;
         }
     }
 
-    getBadges(){
-        this.badges["VisionPoints"] = Math.round(this.totalVisionPoints/this.rankedGames);
+    createBadges(){
+        this.badges["visionPoints"] = Math.round(this.matches.matches.totalVisionPoints/this.gamesPlayed);
 
         return this.badges;
     }
 
     printData(){
-        console.log(`Summoner (${this.name}) ranked games: ${this.rankedGames}`);
+        console.log(`Summoner (${this.name}) ranked games: ${this.gamesPlayed}`);
     }
 }
 
