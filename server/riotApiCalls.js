@@ -46,7 +46,6 @@ export async function getPlayerHistory(summonerName){
 
     let player = new leaguePlayer(summonerName, matchjsons);
     player.processData();
-    player.printData();
     
-    return matchjsons;
+    return player.createBadges();
 }

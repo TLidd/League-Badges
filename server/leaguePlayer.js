@@ -116,9 +116,24 @@ class leaguePlayer{
     }
 
     createBadges(){
-        this.badges["visionPoints"] = Math.round(this.matches.matches.totalVisionPoints/this.gamesPlayed);
+        this.badges.visionPoints = this.averageData(this.matches.totalVisionPoints);
+        this.badges.CSBadgePoints = this.averageData(this.matches.totalCSBadgePoints);
+        this.badges.turretDmgPoints = this.averageData(this.matches.turretDmgBadgePoints);
+
+        let max = 0;
+        for(var key in this.playedRoles){
+            if(max < this.playedRoles[key]){
+                this.badges.Role = key;
+                max = this.playedRoles[key];
+            }
+        }
 
         return this.badges;
+    }
+
+    averageData(totalBadgePoints){
+        let avgBadgePoints = (totalBadgePoints/this.gamesPlayed).toFixed(3);
+        return avgBadgePoints;
     }
 
     printData(){

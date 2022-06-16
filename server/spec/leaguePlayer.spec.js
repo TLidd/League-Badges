@@ -89,5 +89,19 @@ describe("Summoner's (Beast Brawler) creep point badge score", () => {
 describe("Summoner's (wunkadiller) turret damage point badge score", () => {
     it("should be a number", () => {
         expect(testSummoner1.matches.turretDmgBadgePoints).toBe(0);
-    })
-})
+    });
+});
+
+let testSummoner1Badges = testSummoner1.createBadges();
+describe("Summoner's (wunkadiller) badges", () => {
+    it("should be an object", () => {
+        let badgeExample = {
+            fbAggressionPoints: 0,
+            visionPoints: '1.000',
+            CSBadgePoints: '1.000',
+            turretDmgPoints: '0.000',
+            Role: 'TOP'
+          }
+        expect(testSummoner1Badges).toEqual(badgeExample);
+    });
+});
