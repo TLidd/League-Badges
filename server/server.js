@@ -20,13 +20,15 @@ app.post('/summonerPost', (req, res) =>{
 app.post('/summonerGame', (req, res) => {
   let sumName = req.body['user'];
   getCurrentGame(sumName).then(data => {
-    res.json(data)
+    res.json(data);
   });
 });
 
 app.post('/summonerHistory', (req, res) => {
   let sumName = req.body['user'];
-  let json = getPlayerHistory(sumName);
+  getPlayerHistory(sumName).then(data => {
+    res.json(data);
+  })
 });
 
 app.listen(PORT, () => {

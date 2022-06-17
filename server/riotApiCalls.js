@@ -24,7 +24,7 @@ export async function getPlayerHistory(summonerName){
     const puuid = json["puuid"];
 
     //get match id list from puuid
-    const matchFetch = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${apiCallKey}`)
+    const matchFetch = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=30&api_key=${apiCallKey}`)
                        .catch(err => console.log(err));
     const matchIds = await matchFetch.json().catch(err => console.log(err));
 

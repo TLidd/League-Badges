@@ -10,6 +10,8 @@ const SummonerCard = ({summoner}) => {
       },
       body: JSON.stringify({user: summoner.summonerName}),
     })
+    .then(res => res.json())
+    .then(data => console.log(data));
   });
 
   return (
