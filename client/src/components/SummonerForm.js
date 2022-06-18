@@ -1,47 +1,77 @@
-import { useState } from "react";
+import {useEffect, useRef, useState} from "react";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom"
+import SummonerLobby from "./SummonerLobby"
 
 const SummonerForm = () => {
 
+    const [lobby, setLobby] = useState(null);
     const [sumName, setSummoner] = useState('');
-    const [sumInfo, setSumInfo] = useState({});
+
+    //useRef allows for a ref object of the form value below
+    const textInput = useRef(null);
+    const navigate = useNavigate();
 
     const formSubmit = (e) => {
         e.preventDefault();
+        navigate(`${textInput.current.value}/ActiveGame`);
+      }
+    
+    // useEffect(() => {
+    //   console.log(sumName);
+    //   if(sumName !== undefined){
+    //     fetch("/summonerGame", {
+    //       method: "POST" ,
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({user: sumName}),
+    //     })
+    //     .then(res => {
+    //       if(!res.ok){
+    //       throw Error("Error posting to server");
+    //       }
+    //       return res.json();
+    //     })
+    //     .then(data => {
+    //       if('status' in data){
+    //         if(data.status.status_code === 404){
+    //           throw Error("No data found");
+    //         }
+    //         if(data.status.status_code === 429){
+    //           throw Error("Api limit reached");
+    //         }
+    //       }
+    //       else{
+    //         setLobby(data);
+    //       }
+    //     })
+    //     .catch(err => {
+    //           console.log(err.message);
+    //     })
+    //   }
+    // }, [sumName])
 
-        fetch("/summonerPost", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({user: sumName}),
-        })
-        .then(res => res.json())
-        .then(infoJson => {
-            setSumInfo({name: infoJson.name, sumLvl: infoJson.summonerLevel, sumIcon: infoJson.profileIconId});
-        });
-    }
+    
+    return (
+      <div>
+          <form onSubmit={formSubmit}>
+              <div>
+                  <label htmlFor="summonerName">Summoner Name:</label>
+              </div>
+              <div>
+                  <input type="text" id="summonerName" ref={textInput}></input>
+              </div>
+              <div>
+                  <input type="submit" value="Find Summoner"></input>
+              </div>
+          </form>
+          {/* <Routes>
+              <Route exact path="/" element={(sumName && !lobby) ? <Navigate to={`/${sumName}`}/> : ''}/>
+              <Route exact path={`./${sumName}/ActiveGame`} element={<SummonerLobby lobbyList={lobby}/>} />
+          </Routes> */}
 
-  return (
-    <div>
-        <form onSubmit={formSubmit}>
-            <div>
-                <label htmlFor="summonerName">Summoner Name:</label>
-            </div>
-            <div>
-                <input onChange={(e) => setSummoner(e.target.value)} type="text" id="summonerName"></input>
-            </div>
-            <div>
-                <input type="submit" value="Find Summoner"></input>
-            </div>
-        </form>
-        <div>
-            <p>{sumInfo.name ? sumInfo.name : ''}</p>
-            <img width= {sumInfo.sumIcon ? "100" : "0"} height= {sumInfo.sumIcon ? "100" : "0"} padding= {sumInfo.sumIcon ? "10" : "0"}
-            src={sumInfo.sumIcon ? `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${sumInfo.sumIcon}.png` : ''} alt=''/>
-            <p>{sumInfo.sumLvl ? sumInfo.sumLvl : ''}</p>
-        </div>
-    </div>
-  )
+      </div>
+    )
 }
 
 export default SummonerForm;

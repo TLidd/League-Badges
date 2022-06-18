@@ -1,6 +1,13 @@
 import { useEffect} from "react";
+import { useParams } from "react-router-dom";
 
-const SummonerCard = ({summoner}) => {
+const SummonerCard = ({sumName}) => {
+  let {name} = useParams();
+
+  let summonerName = sumName;
+  if(sumName === undefined){
+    summonerName = name;
+  }
 
   useEffect(() => {
     fetch("/summonerHistory", {
@@ -8,23 +15,19 @@ const SummonerCard = ({summoner}) => {
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({user: summoner.summonerName}),
+      body: JSON.stringify({user: summonerName}),
     })
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => {
+        console.log(data);
+    });
   });
 
   return (
     <div>
-        <div>
-            {summoner.summonerName}
+        <div style={(name.toUpperCase() === summonerName.toUpperCase()) ? {color:"white"} : {color:"Grey"}}>
+            {summonerName}
         </div>
-        <div>
-            <img width="100" height="100" padding="10"
-            src={`http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${summoner.profileIconId}.png`} alt=''/>
-        </div>
-            {/* <img width="100" height="100" padding="10"
-            src={`http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/Aatrox.png${summoner.championId}_0.jpg`} alt=''/> */}
     </div>
   )
 }

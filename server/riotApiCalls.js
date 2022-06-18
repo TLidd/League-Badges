@@ -18,15 +18,11 @@ export function getCurrentGame(summonerName){
 
 export async function getPlayerHistory(summonerName){
     //get summoner puuid from name
-    const res = await fetch(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`)
-                .catch(err => console.log(err));;
-    const json = await res.json().catch(err => console.log(err));;
-    const puuid = json["puuid"];
+    const summonerInfo = await fetchData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    const puuid = summonerInfo["puuid"];
 
     //get match id list from puuid
-    const matchFetch = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=30&api_key=${apiCallKey}`)
-                       .catch(err => console.log(err));
-    const matchIds = await matchFetch.json().catch(err => console.log(err));
+    const matchIds = await fetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=30&api_key=${apiCallKey}`);
 
     //get match data from each match id 
     //note when '{}' is used here the return needs to be explicit
@@ -48,4 +44,14 @@ export async function getPlayerHistory(summonerName){
     player.processData();
     
     return player.createBadges();
+}
+
+export async function fetchData(url){
+    const res = await fetch(url).catch(err => {
+        throw new Error(err);
+    });
+    const jsonObj = await res.json().catch(err => {
+        throw new Error(err);
+    });
+    return jsonObj;
 }
