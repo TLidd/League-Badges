@@ -1,5 +1,6 @@
 import { useEffect} from "react";
 import { useParams } from "react-router-dom";
+import "../Stylesheets/SummonerCard.css"
 
 const SummonerCard = ({sumName}) => {
   let {name} = useParams();
@@ -24,10 +25,8 @@ const SummonerCard = ({sumName}) => {
   });
 
   return (
-    <div>
-        <div style={(name.toUpperCase() === summonerName.toUpperCase()) ? {color:"white"} : {color:"Grey"}}>
-            {summonerName}
-        </div>
+    <div className="card" style={(name.toUpperCase() === summonerName.toUpperCase()) ? {color: "#FFD700"} : {color:"Grey"}}>
+      {summonerName}
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react";
 import SummonerCard from "./SummonerCard"
+import "../Stylesheets/SummonerLobby.css"
+
 const SummonerLobby = () => {
 
     let {name} = useParams();
@@ -57,12 +59,12 @@ const SummonerLobby = () => {
             const team1 = lobby.participants.slice(0,5);
             const team2 = lobby.participants.slice(5,11);
             setTeam1(team1.map((summoner) => (
-                <div key={summoner.summonerName}>
+                <div className="column" key={summoner.summonerName}>
                     <SummonerCard sumName = {summoner.summonerName} />
                 </div>
             )));
             setTeam2(team2.map((summoner) => (
-                <div key={summoner.summonerName}>
+                <div className="column" key={summoner.summonerName}>
                     <SummonerCard sumName = {summoner.summonerName} />
                 </div>
             )));
@@ -72,22 +74,23 @@ const SummonerLobby = () => {
 
   return (
     <div>
-        <div>
-            {gameActive === true &&
-                <div>
-                     -----------Team1-----------
-                    {team1Layout}
-                </div>             
-            }
-        </div>
-        <div>
-            {gameActive === true &&
-                <div>
-                     -----------Team1-----------
-                    {team2Layout}
-                </div>             
-            }
-        </div>
+        {gameActive === true &&
+            <div>
+                Team 1
+                <div className="row" style={{paddingBottom: "10%"}}>
+                    <div className="column-container">
+                        {team1Layout}
+                    </div>
+                </div>
+                Team 2
+                <div className="row">
+                    <div className="column-container">
+                        {team2Layout}
+                    </div>
+                </div>
+            </div>    
+        }
+        
         <div>
             {gameChecked === true &&
                 <div>

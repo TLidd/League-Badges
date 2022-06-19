@@ -41,7 +41,13 @@ export async function getPlayerHistory(summonerName){
     .catch(err => console.log(err));
 
     let player = new leaguePlayer(summonerName, matchjsons);
-    player.processData();
+
+    try{
+        player.processData();
+    }
+    catch(error){
+        console.error("Error Received: " + error);
+    }
     
     return player.createBadges();
 }

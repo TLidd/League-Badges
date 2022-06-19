@@ -1,0 +1,17 @@
+.column-container{
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.column {
+    display: table-cell;
+    border: 1px black;
+    border-style: dashed;
+}
+
+.row::after{
+    content: none;
+    display: table;
+    clear: both;
+}
