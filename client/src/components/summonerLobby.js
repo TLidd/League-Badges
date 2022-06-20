@@ -1,17 +1,17 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react";
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
+import usePostFetch from "./usePostFetch";
 
 const SummonerLobby = () => {
 
     let {name} = useParams();
-    let [lobby, setLobby] = useState(null);
-    let [gameActive, setActive] = useState(false);
-    let [gameChecked, setGameChecked] = useState(false);
 
-    let[team1Layout, setTeam1] = useState(null);
-    let[team2Layout, setTeam2] = useState(null);
+    let [team1Layout, setTeam1] = useState(null);
+    let [team2Layout, setTeam2] = useState(null);
+
+    let [inMatch, setInMatch] = useState(true);
     
     const navigate = useNavigate();
 
@@ -19,45 +19,19 @@ const SummonerLobby = () => {
         navigate(`/${name}`);
     }
 
-    useEffect(() => {
-        fetch("/summonerGame", {
-            method: "POST" ,
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({user: name}),
-        })
-        .then(res => {
-            if(!res.ok){
-            throw Error("Error posting to server");
-            }
-            return res.json();
-        })
-        .then(data => {
-            if('status' in data){
-                setGameChecked(true);
-                console.log(data);
-                if(data.status.status_code === 404){
-                    throw Error("No data found");
-                }
-                if(data.status.status_code === 429){
-                    throw Error("Api limit reached");
-                }
-            }
-            else{
-                setLobby(data);
-                setActive(true);
-            }
-        })
-        .catch(err => {
-            console.log(err.message);
-        })
-    }, [name])
+    const {data, isPending, error} = usePostFetch("/summonerGame", {user: name});
 
     useEffect(() => {
-        if(lobby !== null){
-            const team1 = lobby.participants.slice(0,5);
-            const team2 = lobby.participants.slice(5,11);
+        if(data !== null){
+
+            if("status" in data){
+                setInMatch(false);
+                console.log(data.status.message);
+                return;
+            }
+
+            const team1 = data.participants.slice(0,5);
+            const team2 = data.participants.slice(5,11);
             setTeam1(team1.map((summoner) => (
                 <div className="column" key={summoner.summonerName}>
                     <SummonerCard sumName = {summoner.summonerName} />
@@ -68,13 +42,12 @@ const SummonerLobby = () => {
                     <SummonerCard sumName = {summoner.summonerName} />
                 </div>
             )));
-            setLobby(null);
         }
-    }, [lobby]);
+    }, [data]);
 
   return (
     <div>
-        {gameActive === true &&
+        {data &&
             <div>
                 Team 1
                 <div className="row" style={{paddingBottom: "10%"}}>
@@ -92,7 +65,7 @@ const SummonerLobby = () => {
         }
         
         <div>
-            {gameChecked === true &&
+            {!inMatch &&
                 <div>
                     <p>
                         {name} is not in an active game

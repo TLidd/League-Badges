@@ -2,27 +2,29 @@ import fetch from 'node-fetch';
 import {apiCallKey} from "./riotApiKey.js"
 import leaguePlayer from "./leaguePlayer.js"
 
-export function getSummoner(summonerName){
-    return fetch(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`)
-    .then(res => res.json())
-    .catch(err => console.log(err));
+export async function getSummoner(summonerName){
+    let summonerInfo = await fetch(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    let jsonData = await getJson(summonerInfo);
+    return jsonData;
 }
 
-export function getCurrentGame(summonerName){
-    return getSummoner(summonerName).then(data => {
-        return fetch(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${data.id}?api_key=${apiCallKey}`)
-        .then(res => res.json())
-        .catch(err => console.log(err));
-    });
+export async function getCurrentGame(summonerName){
+    let summonerInfo = await getSummoner(summonerName);
+    let fetch = await fetchData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${apiCallKey}`);
+    let jsonData = await getJson(fetch);
+    return jsonData;
 }
 
 export async function getPlayerHistory(summonerName){
     //get summoner puuid from name
-    const summonerInfo = await fetchData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    let summonerInfo = await fetchData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    summonerInfo = await getJson(summonerInfo);
+
     const puuid = summonerInfo["puuid"];
 
     //get match id list from puuid
-    const matchIds = await fetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=30&api_key=${apiCallKey}`);
+    let matchIds = await fetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=30&api_key=${apiCallKey}`);
+    matchIds = await getJson(matchIds);
 
     //get match data from each match id 
     //note when '{}' is used here the return needs to be explicit
@@ -31,12 +33,12 @@ export async function getPlayerHistory(summonerName){
     //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
     // ));
     let matches = await Promise.all(Object.values(matchIds).map(matchId => {
-        return fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
+        return fetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
     }))
     .catch(err => console.log(err));
 
-    let matchjsons = await Promise.all(matches.map(r => {
-        return r.json();
+    let matchjsons = await Promise.all(matches.map(match => {
+        return getJson(match);
     }))
     .catch(err => console.log(err));
 
@@ -52,12 +54,22 @@ export async function getPlayerHistory(summonerName){
     return player.createBadges();
 }
 
-export async function fetchData(url){
-    const res = await fetch(url).catch(err => {
-        throw new Error(err);
-    });
-    const jsonObj = await res.json().catch(err => {
-        throw new Error(err);
-    });
-    return jsonObj;
+async function fetchData(url){
+    let res;
+    try{
+        res = await fetch(url);
+    }catch(err){
+        console.error(err);
+    }
+    return res;
+}
+
+async function getJson(res){
+    let jsonObj;
+    try{
+        jsonObj = await res.json();
+    }catch(err){
+        console.error(err);
+    }
+    return jsonObj; 
 }

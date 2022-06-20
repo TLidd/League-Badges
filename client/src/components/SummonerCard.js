@@ -1,6 +1,6 @@
-import { useEffect} from "react";
 import { useParams } from "react-router-dom";
 import "../Stylesheets/SummonerCard.css"
+import usePostFetch from "./usePostFetch";
 
 const SummonerCard = ({sumName}) => {
   let {name} = useParams();
@@ -10,19 +10,7 @@ const SummonerCard = ({sumName}) => {
     summonerName = name;
   }
 
-  useEffect(() => {
-    fetch("/summonerHistory", {
-      method: "POST",
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({user: summonerName}),
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-    });
-  });
+  const {data, isPending, Error} = usePostFetch("/summonerHistory", {user: summonerName});
 
   return (
     <div className="card" style={(name.toUpperCase() === summonerName.toUpperCase()) ? {color: "#FFD700"} : {color:"Grey"}}>
