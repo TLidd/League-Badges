@@ -5,6 +5,7 @@ const usePostFetch = (url, fetchBody) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
+    const [payload] = useState(fetchBody);
 
     useEffect(() => {
 
@@ -14,7 +15,7 @@ const usePostFetch = (url, fetchBody) => {
             headers: {
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify(fetchBody),
+            body: JSON.stringify(payload),
             signal: abortController.signal,
         })
         .then(res => {
@@ -38,7 +39,7 @@ const usePostFetch = (url, fetchBody) => {
 
         return () => abortController.abort();
 
-    }, [url, fetchBody]);
+    }, [url, payload]);
 
     return { data, isPending, error };
 }
