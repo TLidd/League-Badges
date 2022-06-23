@@ -8,3 +8,19 @@
 .namePlate {
     color: rgb(0, 208, 255);
 }
+
+a:hover {
+    color: white;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+.highlightSummoner{
+    color: gold;
+}
+
+.lobbyParticipant{
+    color: rgb(212, 212, 212);
+}
