@@ -63,7 +63,7 @@ const SummonerLobby = () => {
         {data && inMatch &&
             <div>
                 Team 1
-                <div className="row" style={{paddingBottom: "10%"}}>
+                <div className="row" style={{paddingBottom: "5%"}}>
                     <div className="column-container">
                         {team1Layout}
                     </div>

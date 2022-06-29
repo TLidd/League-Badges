@@ -26,13 +26,17 @@ class leaguePlayer{
     /*badges are to describe the players playstyle
           (0-2) represents the level the player is at. example of aggro
           2 being a very aggressive player, 0 being a very passive player.*/
-    badges = {
-        "fbAggressionPoints" : 0,
-        "visionPoints" : 0,
-        "CSBadgePoints" : 0,
-        "turretDmgPoints" : 0,
-        "Role" : "",
+    
+    playerData = {
+        Role : "",
+        badges : {
+            "fbAggressionPoints" : 0,
+            "visionPoints" : 0,
+            "CSBadgePoints" : 0,
+            "turretDmgPoints" : 0,
+        }
     }
+
     constructor(name, matchHistory){
         this.name = name;
         this.matchHistory = matchHistory;
@@ -115,20 +119,21 @@ class leaguePlayer{
         }
     }
 
-    createBadges(){
-        this.badges.visionPoints = this.averageData(this.matches.totalVisionPoints);
-        this.badges.CSBadgePoints = this.averageData(this.matches.totalCSBadgePoints);
-        this.badges.turretDmgPoints = this.averageData(this.matches.turretDmgBadgePoints);
+    getPlayerData(){
+        if(this.gamesPlayed != 0){
+            this.playerData.badges.visionPoints = this.averageData(this.matches.totalVisionPoints);
+            this.playerData.badges.CSBadgePoints = this.averageData(this.matches.totalCSBadgePoints);
+            this.playerData.badges.turretDmgPoints = this.averageData(this.matches.turretDmgBadgePoints);
 
-        let max = 0;
-        for(var key in this.playedRoles){
-            if(max < this.playedRoles[key]){
-                this.badges.Role = key;
-                max = this.playedRoles[key];
+            let max = 0;
+            for(var key in this.playedRoles){
+                if(max < this.playedRoles[key]){
+                    this.playerData.Role = key;
+                    max = this.playedRoles[key];
+                }
             }
         }
-
-        return this.badges;
+        return this.playerData;
     }
 
     averageData(totalBadgePoints){

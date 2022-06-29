@@ -48,10 +48,10 @@ export async function getPlayerHistory(summonerName){
         player.processData();
     }
     catch(error){
-        console.error("Error Received: " + error);
+        console.error("Error Received getPlayerHistory: " + error);
     }
     
-    return player.createBadges();
+    return player.getPlayerData();
 }
 
 async function fetchData(url){

@@ -27,7 +27,7 @@ app.post('/summonerGame', (req, res) => {
 app.post('/summonerHistory', (req, res) => {
   let sumName = req.body['user'];
   getPlayerHistory(sumName).then(data => {
-    res.json(data);
+    res.json({player: data});
   })
 });
 
