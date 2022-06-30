@@ -28,18 +28,20 @@ class leaguePlayer{
           2 being a very aggressive player, 0 being a very passive player.*/
     
     playerData = {
+        SummonerName: "",
         Role : "",
         badges : {
-            "fbAggressionPoints" : "None",
-            "visionPoints" : "None",
-            "CSBadgePoints" : "None",
-            "turretDmgPoints" : "None",
+            "Aggressor" : "None",
+            "Warder" : "None",
+            "CreepSlayer" : "None",
+            "TowerDestroyer" : "None",
         }
     }
 
     constructor(name, matchHistory){
         this.name = name;
         this.matchHistory = matchHistory;
+        this.playerData.SummonerName = name
     }
 
     //process the data by getting the different badges to describe the player (ranked games only)
@@ -121,9 +123,9 @@ class leaguePlayer{
 
     getPlayerData(){
         if(this.gamesPlayed != 0){
-            this.playerData.badges.visionPoints = this.getBadgeGrade(this.matches.totalVisionPoints)
-            this.playerData.badges.CSBadgePoints = this.getBadgeGrade(this.matches.totalCSBadgePoints);
-            this.playerData.badges.turretDmgPoints = this.getBadgeGrade(this.matches.turretDmgBadgePoints);
+            this.playerData.badges.Warder = this.getBadgeGrade(this.matches.totalVisionPoints)
+            this.playerData.badges.CreepSlayer = this.getBadgeGrade(this.matches.totalCSBadgePoints);
+            this.playerData.badges.TowerDestroyer = this.getBadgeGrade(this.matches.turretDmgBadgePoints);
 
             let max = 0;
             for(var key in this.playedRoles){
@@ -148,7 +150,7 @@ class leaguePlayer{
             return "Good";
         }
         else{
-            return;
+            return "None";
         }
     }
 

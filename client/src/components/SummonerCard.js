@@ -43,7 +43,7 @@ const SummonerCard = ({sumName, createLink}) => {
         let summonerBadges = data.player.badges;
         setBadges(Object.keys(summonerBadges).map((badge, index) => (
           <div key={index} className={`${summonerBadges[badge]}`}>
-              {summonerBadges[badge] != "None" && `${badge}`}
+              {summonerBadges[badge] !== "None" && `${badge}`}
           </div>
         )));
     }
