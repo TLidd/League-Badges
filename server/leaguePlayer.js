@@ -30,10 +30,10 @@ class leaguePlayer{
     playerData = {
         Role : "",
         badges : {
-            "fbAggressionPoints" : 0,
-            "visionPoints" : 0,
-            "CSBadgePoints" : 0,
-            "turretDmgPoints" : 0,
+            "fbAggressionPoints" : "None",
+            "visionPoints" : "None",
+            "CSBadgePoints" : "None",
+            "turretDmgPoints" : "None",
         }
     }
 
@@ -121,9 +121,9 @@ class leaguePlayer{
 
     getPlayerData(){
         if(this.gamesPlayed != 0){
-            this.playerData.badges.visionPoints = this.averageData(this.matches.totalVisionPoints);
-            this.playerData.badges.CSBadgePoints = this.averageData(this.matches.totalCSBadgePoints);
-            this.playerData.badges.turretDmgPoints = this.averageData(this.matches.turretDmgBadgePoints);
+            this.playerData.badges.visionPoints = this.getBadgeGrade(this.matches.totalVisionPoints)
+            this.playerData.badges.CSBadgePoints = this.getBadgeGrade(this.matches.totalCSBadgePoints);
+            this.playerData.badges.turretDmgPoints = this.getBadgeGrade(this.matches.turretDmgBadgePoints);
 
             let max = 0;
             for(var key in this.playedRoles){
@@ -136,9 +136,20 @@ class leaguePlayer{
         return this.playerData;
     }
 
-    averageData(totalBadgePoints){
+    getBadgeGrade(totalBadgePoints){
         let avgBadgePoints = (totalBadgePoints/this.gamesPlayed).toFixed(3);
-        return avgBadgePoints;
+        if(avgBadgePoints > 1.75){
+            return "Excellent";
+        }
+        else if(avgBadgePoints > 1.5){
+            return "Great";
+        }
+        else if(avgBadgePoints > 1.25){
+            return "Good";
+        }
+        else{
+            return;
+        }
     }
 
     printData(){
