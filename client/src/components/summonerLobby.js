@@ -36,12 +36,12 @@ const SummonerLobby = () => {
             const team1 = data.participants.slice(0,5);
             const team2 = data.participants.slice(5,11);
             setTeam1(team1.map((summoner) => (
-                <div className="column" key={summoner.summonerName}>
+                <div className="flexbox-item" key={summoner.summonerName}>
                     <SummonerCard sumName = {summoner.summonerName} createLink = {true}/>
                 </div>
             )));
             setTeam2(team2.map((summoner) => (
-                <div className="column" key={summoner.summonerName}>
+                <div className="flexbox-item" key={summoner.summonerName}>
                     <SummonerCard sumName = {summoner.summonerName} createLink = {true}/>
                 </div>
             )));
@@ -63,16 +63,12 @@ const SummonerLobby = () => {
         {data && inMatch &&
             <div>
                 Team 1
-                <div className="row" style={{paddingBottom: "5%"}}>
-                    <div className="column-container">
-                        {team1Layout}
-                    </div>
+                <div className="flexbox-container">
+                    {team1Layout}
                 </div>
                 Team 2
-                <div className="row">
-                    <div className="column-container">
-                        {team2Layout}
-                    </div>
+                <div className="flexbox-container">
+                    {team2Layout}
                 </div>
             </div>    
         }

@@ -30,12 +30,7 @@ class leaguePlayer{
     playerData = {
         SummonerName: "",
         Role : "",
-        badges : {
-            "Aggressor" : "None",
-            "Warder" : "None",
-            "CreepSlayer" : "None",
-            "TowerDestroyer" : "None",
-        }
+        badges : {}
     }
 
     constructor(name, matchHistory){
@@ -123,12 +118,12 @@ class leaguePlayer{
 
     getPlayerData(){
         if(this.gamesPlayed != 0){
-            this.playerData.badges.Warder = this.getBadgeGrade(this.matches.totalVisionPoints)
-            this.playerData.badges.CreepSlayer = this.getBadgeGrade(this.matches.totalCSBadgePoints);
-            this.playerData.badges.TowerDestroyer = this.getBadgeGrade(this.matches.turretDmgBadgePoints);
+            this.addBadge("Warder", this.matches.totalVisionPoints);
+            this.addBadge("CreepKiller", this.matches.totalCSBadgePoints);
+            this.addBadge("TowerDestroyer", this.matches.turretDmgBadgePoints);
 
             let max = 0;
-            for(var key in this.playedRoles){
+            for(let key in this.playedRoles){
                 if(max < this.playedRoles[key]){
                     this.playerData.Role = key;
                     max = this.playedRoles[key];
@@ -138,20 +133,18 @@ class leaguePlayer{
         return this.playerData;
     }
 
-    getBadgeGrade(totalBadgePoints){
+    addBadge(badgeName, totalBadgePoints){
         let avgBadgePoints = (totalBadgePoints/this.gamesPlayed).toFixed(3);
         if(avgBadgePoints > 1.75){
-            return "Excellent";
+            this.playerData.badges[badgeName] = "Excellent";
         }
         else if(avgBadgePoints > 1.5){
-            return "Great";
+            this.playerData.badges[badgeName] = "Great";
         }
         else if(avgBadgePoints > 1.25){
-            return "Good";
+            this.playerData.badges[badgeName] = "Good";
         }
-        else{
-            return "None";
-        }
+        return;
     }
 
     printData(){

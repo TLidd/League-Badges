@@ -1,21 +1,33 @@
 .card {
-    border: 1px solid black;
-    margin: 1rem;
-    padding: 2rem 2rem;
-    text-align: center;
+    height: 100%;
 }
 
-.namePlate {
-    color: rgb(0, 208, 255);
+.name {
+    font-size: 70%;
+    font-weight: bold;
 }
 
-a:hover {
+.name:hover{
+    font-size: 72%;
     color: white;
-    font-size: calc(11px + 2vmin);
+}
+
+.namePlate{
+    width: 75%;
+    height: 10%;
+    border-radius: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
 }
 
 a:link {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-style: solid;
+}
+
+.roleIcon{
+    width: 15%;
 }
 
 .highlightSummoner{
@@ -31,9 +43,9 @@ a:link {
 }
 
 .Great{
-    color: greenyellow;
+    color: rgb(153, 255, 0);
 }
 
 .Excellent{
-    color: green;
+    color: rgb(0, 112, 0);
 }

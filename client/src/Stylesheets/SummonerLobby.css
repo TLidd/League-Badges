@@ -1,17 +1,12 @@
-.column-container{
-    display: table;
-    table-layout: fixed;
-    width: 100%;
+.flexbox-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.column {
-    display: table-cell;
-    border: 1px black;
-    border-style: dashed;
-}
-
-.row::after{
-    content: none;
-    display: table;
-    clear: both;
+.flexbox-item{
+    width: 15%;
+    border: 3px solid black;
+    border-radius: 5%;
+    height: 400px;
 }

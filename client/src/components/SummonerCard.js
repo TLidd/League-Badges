@@ -20,6 +20,7 @@ const SummonerCard = ({sumName, createLink}) => {
   const sumInfo = usePostFetch("/summonerPost", {user: summonerName});
 
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
+  let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
 
   useEffect(() => {
     if(sumInfo.data != null){
@@ -43,7 +44,7 @@ const SummonerCard = ({sumName, createLink}) => {
         let summonerBadges = data.player.badges;
         setBadges(Object.keys(summonerBadges).map((badge, index) => (
           <div key={index} className={`${summonerBadges[badge]}`}>
-              {summonerBadges[badge] !== "None" && `${badge}`}
+              {`${badge}`}
           </div>
         )));
     }
@@ -51,18 +52,20 @@ const SummonerCard = ({sumName, createLink}) => {
 
   return (
     <div className="card">
-      {createLink ? 
-        <Link to={`/${summonerName}`} className={nameMatch ? "highlightSummoner" : "lobbyParticipant"}>
-          {summonerName} 
-        </Link>
-        :
-        summonerInfoName
-      }
-      {!summonerInfoName && !sumInfo.isPending && `${summonerName} does not exist`}
+      <div className="namePlate">
+        {createLink ? 
+          <Link to={`/${summonerName}`} className={`name ${highlight}`}>
+            {summonerName} 
+          </Link>
+          :
+          summonerInfoName
+        }
+      </div>
+      {!summonerInfoName && !sumInfo.isPending && !sumName && `${summonerName} does not exist`}
       <div>
         {data && playerRole && 
           <div>
-              <div> {data.player.Role} </div>
+              <img src={require(`../../public/roleIcons/${playerRole}.png`)} alt="Summoner Role" className="roleIcon"/>
               <div> {playerBadges} </div>
           </div>
         }
