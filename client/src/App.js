@@ -9,16 +9,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Router>
-          <Routes>
-            <Route exact path="" element={<SummonerForm />} />
-            <Route exact path={`/:name`} element={<SummonerCard />} />
-            <Route exact path={`/:name/ActiveGame/*`} element={<SummonerLobby />} />
-            <Route element={<SummonerForm />}/>
-          </Routes>
-        </Router>
-      </header>
+      <Router>
+        <Routes>
+          <Route exact path="" element={<SummonerForm />} />
+          <Route exact path={`/:name`} element={<SummonerCard />} />
+          <Route exact path={`/:name/ActiveGame/*`} element={<SummonerLobby />} />
+          <Route element={<SummonerForm />}/>
+        </Routes>
+      </Router>
     </div>
   );
 }

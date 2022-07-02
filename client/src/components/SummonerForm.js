@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import {useNavigate} from "react-router-dom"
-import SummonerLobby from "./SummonerLobby"
+import "../Stylesheets/SummonerForm.css"
 
 const SummonerForm = () => {
     //useRef allows for a ref object of the form value below
@@ -13,19 +13,19 @@ const SummonerForm = () => {
     }
     
     return (
-      <div>
-          <form onSubmit={formSubmit}>
-              <div>
-                  <label htmlFor="summonerName">Summoner Name:</label>
-              </div>
-              <div>
-                  <input type="text" id="summonerName" ref={textInput}></input>
-              </div>
-              <div>
-                  <input type="submit" value="Find Summoner"></input>
-              </div>
-          </form>
-      </div>
+        <div className="form-center">
+            <form onSubmit={formSubmit}>
+                <div className="text">
+                    <label htmlFor="summonerName">Summoner Name:</label>
+                </div>
+                <div>
+                    <input className="textInput" maxLength={16} type="text" id="summonerName" ref={textInput}></input>
+                </div>
+                <div>
+                    <input className="button" type="submit" value="Find Summoner"></input>
+                </div>
+            </form>
+        </div>
     )
 }
 

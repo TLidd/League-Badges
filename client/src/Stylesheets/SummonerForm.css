@@ -1,0 +1,33 @@
+.form-center{
+    margin-top: 15%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text{
+    font-size: 150%;
+    color: #bf8600;
+}
+
+.textInput{
+    margin-top: 5%;
+    text-align: center;
+    font-size: 80%;
+}
+
+.textInput::placeholder{
+    color: rgba(128, 128, 128, 0.472);
+}
+
+.button{
+    font-size: 60%;
+    margin-top: 10%;
+    background-color: #a9a9a984;
+    color: #000000;
+    transition-duration: 0.25s;
+}
+
+.button:hover{
+    background-color: #134376;
+    color: white;
+}
