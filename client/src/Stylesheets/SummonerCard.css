@@ -2,14 +2,21 @@
     height: 100%;
 }
 
-.name {
+.selectedName {
     font-size: 70%;
     font-weight: bold;
+    transition-duration: 0.25s;
 }
 
-.name:hover{
+.lobbyName{
+    font-size: 70%;
+    font-weight: bold;
+    transition-duration: 0.25s; 
+}
+
+.lobbyName:hover, .selectedName:hover{
     font-size: 72%;
-    color: white;
+    color: gold;
 }
 
 .namePlate{
@@ -18,7 +25,7 @@
     border-radius: 10%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
+    padding-top: 5%;
 }
 
 a:link {
@@ -31,11 +38,12 @@ a:link {
 }
 
 .highlightSummoner{
+    /* color: #5ced73; */
     color: gold;
 }
 
 .lobbyParticipant{
-    color: rgb(212, 212, 212);
+    color: rgb(255, 255, 255);
 }
 
 .Good{

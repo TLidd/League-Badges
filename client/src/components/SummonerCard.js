@@ -21,6 +21,7 @@ const SummonerCard = ({sumName, createLink}) => {
 
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
   let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
+  let hoverColor = nameMatch ? "selectedName" : "lobbyName";
 
   useEffect(() => {
     if(sumInfo.data != null){
@@ -54,7 +55,7 @@ const SummonerCard = ({sumName, createLink}) => {
     <div className="card">
       <div className="namePlate">
         {createLink ? 
-          <Link to={`/${summonerName}`} className={`name ${highlight}`}>
+          <Link to={`/${summonerName}`} className={`${hoverColor} ${highlight}`}>
             {summonerName} 
           </Link>
           :
