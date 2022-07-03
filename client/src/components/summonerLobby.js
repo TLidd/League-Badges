@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import {useEffect, useState} from "react";
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
@@ -59,7 +59,7 @@ const SummonerLobby = () => {
     }, [sumInfo]);
 
   return (
-    <div>
+    <div style={{width:"100%"}}>
         {data && inMatch &&
             <div>
                 Team 1

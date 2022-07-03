@@ -1,16 +1,88 @@
-import {useRef} from "react";
-import {useNavigate} from "react-router-dom"
+import {useEffect, useRef, useState} from "react";
+import {useNavigate, Navigate} from "react-router-dom"
 import "../Stylesheets/SummonerForm.css"
 
 const SummonerForm = () => {
     //useRef allows for a ref object of the form value below
     const textInput = useRef(null);
-    const navigate = useNavigate();
+
+    let [formInput, setFormName] = useState(null);
+    let [summonerName, setName] = useState(null);
+    let [summonerExists, setExists] = useState(true);
+    let [inGameData, setInGameData] = useState(null);
+    let [inGame, setInGame] = useState(true);
 
     const formSubmit = (e) => {
         e.preventDefault();
-        navigate(`${textInput.current.value}/ActiveGame`);
+        setFormName(textInput.current.value);
+        setExists(true);
     }
+
+    useEffect(() => {
+        let abortController = new AbortController();
+        if(formInput != null && formInput != ""){
+            fetch("summonerPost", {
+                method: 'POST',
+                body: JSON.stringify({user: formInput}),
+                headers: { 'Content-Type': 'application/json' },
+                signal: abortController.signal
+            })
+            .then(res => {
+                if(!res.ok){
+                    throw Error("Error posting to server");
+                }
+                return res.json();
+            })
+            .then(data => {
+                if(data?.name){
+                    setName(data.name);
+                    setExists(true);
+                }
+                if(data?.name == undefined){
+                    setExists(false);
+                }
+            })
+            .catch(err => {
+                if(err.name === "AbortError"){
+                    console.log("fetch aborted");
+                }
+            });
+        }
+
+        return () => abortController.abort();
+    }, [formInput]);
+
+    useEffect(() => {
+        let abortController = new AbortController();
+        if(summonerName != null){
+            fetch("summonerGame", {
+                method: 'POST',
+                body: JSON.stringify({user: summonerName}),
+                headers: { 'Content-Type': 'application/json' },
+                signal: abortController.signal
+            })
+            .then(res => {
+                if(!res.ok){
+                    throw Error("Error posting to server");
+                }
+                return res.json();
+            })
+            .then(data => {
+                if(!data?.status){
+                    setInGameData(data)
+                }else{
+                    setInGame(false);
+                }
+            })
+            .catch(err => {
+                if(err.name === "AbortError"){
+                    console.log("fetch aborted");
+                }
+            });
+        }
+
+        return () => abortController.abort();
+    }, [summonerName])
     
     return (
         <div className="form-center">
@@ -25,6 +97,13 @@ const SummonerForm = () => {
                     <input className="button" type="submit" value="Find Summoner"></input>
                 </div>
             </form>
+            {!summonerExists && 
+                <div className="noSummoner">
+                    {`${formInput} does not exist`}
+                </div>
+            }
+            {summonerExists && inGameData && <Navigate to={`/${summonerName}/ActiveGame/`} />}
+            {summonerExists && !inGame && <Navigate to={`/${summonerName}`} />}
         </div>
     )
 }
