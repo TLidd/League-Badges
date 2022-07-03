@@ -16,6 +16,7 @@ const SummonerForm = () => {
         e.preventDefault();
         setFormName(textInput.current.value);
         setExists(true);
+        textInput.current.value = "";
     }
 
     useEffect(() => {
@@ -102,7 +103,7 @@ const SummonerForm = () => {
                     {`${formInput} does not exist`}
                 </div>
             }
-            {summonerExists && inGameData && <Navigate to={`/${summonerName}/ActiveGame/`} />}
+            {summonerExists && inGameData && <Navigate to={`/${summonerName}/ActiveGame/`} state={{inGameData}} />}
             {summonerExists && !inGame && <Navigate to={`/${summonerName}`} />}
         </div>
     )
