@@ -16,7 +16,7 @@
 
 .lobbyName:hover, .selectedName:hover{
     font-size: 72%;
-    color: gold;
+    color: #bf8600;
 }
 
 .namePlate{
@@ -39,7 +39,7 @@ a:link {
 
 .highlightSummoner{
     /* color: #5ced73; */
-    color: gold;
+    color: #bf8600;
 }
 
 .lobbyParticipant{
