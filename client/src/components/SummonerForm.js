@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {useNavigate, Navigate} from "react-router-dom"
+import {Navigate} from "react-router-dom"
 import "../Stylesheets/SummonerForm.css"
 
 const SummonerForm = () => {
@@ -11,6 +11,7 @@ const SummonerForm = () => {
     let [summonerExists, setExists] = useState(true);
     let [inGameData, setInGameData] = useState(null);
     let [inGame, setInGame] = useState(true);
+    let [isLoading, setLoading] = useState(null);
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +22,8 @@ const SummonerForm = () => {
 
     useEffect(() => {
         let abortController = new AbortController();
-        if(formInput != null && formInput != ""){
+        if(formInput !== null && formInput !== ""){
+            setLoading(true);
             fetch("summonerPost", {
                 method: 'POST',
                 body: JSON.stringify({user: formInput}),
@@ -39,8 +41,9 @@ const SummonerForm = () => {
                     setName(data.name);
                     setExists(true);
                 }
-                if(data?.name == undefined){
+                if(data?.name === undefined){
                     setExists(false);
+                    setLoading(false);
                 }
             })
             .catch(err => {
@@ -69,6 +72,7 @@ const SummonerForm = () => {
                 return res.json();
             })
             .then(data => {
+                setLoading(false);
                 if(!data?.status){
                     setInGameData(data)
                 }else{
@@ -102,6 +106,9 @@ const SummonerForm = () => {
                 <div className="noSummoner">
                     {`${formInput} does not exist`}
                 </div>
+            }
+            {isLoading && 
+                <img src={require("../assets/loading.gif")} alt="loading..." className="loadingGif"/>
             }
             {summonerExists && inGameData && <Navigate to={`/${summonerName}/ActiveGame/`} state={{inGameData}} />}
             {summonerExists && !inGame && <Navigate to={`/${summonerName}`} />}

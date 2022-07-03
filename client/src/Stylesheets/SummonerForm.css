@@ -27,7 +27,7 @@
     border-radius: 10px;
     background-color: #00000023;
     color: #bf8600;
-    transition-duration: 0.25s;
+    transition-duration: 0.5s;
     border-color: #bf8600;
     font-weight: bold;
 }
@@ -35,9 +35,16 @@
 .button:hover{
     background-color: #bf8600;
     color: black;
+    cursor: pointer;
 }
 
 .noSummoner{
-    margin-top: 15%;
+    margin-top: 10%;
     color: rgba(255, 255, 255, 0.439);
+}
+
+.loadingGif{
+    width: 2%;
+    height: 2%;
+    margin-top: 10%;
 }
