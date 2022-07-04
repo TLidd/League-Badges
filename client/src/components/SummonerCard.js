@@ -15,13 +15,12 @@ const SummonerCard = ({sumName, createLink}) => {
   let [playerBadges, setBadges] = useState(null);
   let [playerRole, setRole] = useState(null);
 
-  const {data, isPending, Error} = usePostFetch("/summonerHistory", {user: summonerName});
+  const {data} = usePostFetch("/summonerHistory", {user: summonerName});
 
   const sumInfo = usePostFetch("/summonerPost", {user: summonerName});
 
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
   let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
-  let hoverColor = nameMatch ? "selectedName" : "lobbyName";
 
   useEffect(() => {
     if(sumInfo.data != null){
@@ -40,7 +39,6 @@ const SummonerCard = ({sumName, createLink}) => {
             return;
         }
         setRole(data.player.Role);
-        console.log(data);
 
         let summonerBadges = data.player.badges;
         setBadges(Object.keys(summonerBadges).map((badge, index) => (
@@ -55,7 +53,7 @@ const SummonerCard = ({sumName, createLink}) => {
     <div className="card">
       <div className="namePlate">
         {createLink ? 
-          <Link to={`/${summonerName}`} className={`${hoverColor} ${highlight}`}>
+          <Link to={`/${summonerName}`} className={`name ${highlight}`}>
             {summonerName} 
           </Link>
           :

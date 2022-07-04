@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import {useEffect, useState} from "react";
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
@@ -20,7 +20,7 @@ const SummonerLobby = () => {
         navigate(`/${name}`);
     }
 
-    const {data, isPending, error} = usePostFetch("/summonerGame", {user: name});
+    const {data} = usePostFetch("/summonerGame", {user: name});
 
     const sumInfo = usePostFetch("/summonerPost", {user: name});
 
