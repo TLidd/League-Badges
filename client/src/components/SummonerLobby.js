@@ -37,12 +37,12 @@ const SummonerLobby = () => {
             const team2 = data.participants.slice(5,11);
             setTeam1(team1.map((summoner) => (
                 <div className="flexbox-item" key={summoner.summonerName}>
-                    <SummonerCard sumName = {summoner.summonerName} createLink = {true}/>
+                    <SummonerCard sumName= {summoner.summonerName} activeGame= {true}/>
                 </div>
             )));
             setTeam2(team2.map((summoner) => (
                 <div className="flexbox-item" key={summoner.summonerName}>
-                    <SummonerCard sumName = {summoner.summonerName} createLink = {true}/>
+                    <SummonerCard sumName= {summoner.summonerName} activeGame= {true}/>
                 </div>
             )));
         }

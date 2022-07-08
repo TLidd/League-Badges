@@ -1,45 +1,45 @@
 import { useEffect, useState } from "react";
 
 const usePostFetch = (url, fetchBody) => {
-
     const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
+    const [isPending, setIsPending] = useState(null);
     const [error, setError] = useState(null);
-    const [payload] = useState(fetchBody);
 
     useEffect(() => {
-
         let abortController = new AbortController();
-        fetch(url, {
-            method: "POST" ,
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload),
-            signal: abortController.signal,
-        })
-        .then(res => {
-            if(!res.ok){
-                throw Error("Error posting to server");
-            }
-            return res.json();
-        })
-        .then(data => {
-            setData(data);
-            setIsPending(false);
-            setError(null);
-        })
-        .catch(err => {
-            if(err.name === "AbortError"){
-                console.log("fetch aborted");
-            }
-            setIsPending(false);
-            setError(err.message);
-        });
+        if(fetchBody){
+            setIsPending(true);
+            fetch(url, {
+                method: "POST" ,
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(fetchBody),
+                signal: abortController.signal,
+            })
+            .then(res => {
+                if(!res.ok){
+                    throw Error("Error posting to server");
+                }
+                return res.json();
+            })
+            .then(data => {
+                setData(data);
+                setIsPending(false);
+                setError(null);
+            })
+            .catch(err => {
+                if(err.name === "AbortError"){
+                    console.log("fetch aborted");
+                }
+                setIsPending(false);
+                setError(err.message);
+            });
+        }
 
         return () => abortController.abort();
 
-    }, [url, payload]);
+    }, [url, fetchBody]);
 
     return { data, isPending, error };
 }

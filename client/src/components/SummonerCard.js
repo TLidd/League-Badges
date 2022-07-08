@@ -3,7 +3,7 @@ import "../Stylesheets/SummonerCard.css"
 import usePostFetch from "./usePostFetch";
 import { useState, useEffect } from "react";
 
-const SummonerCard = ({sumName, createLink}) => {
+const SummonerCard = ({sumName, activeGame}) => {
   let {name} = useParams();
 
   let summonerName = sumName;
@@ -23,21 +23,13 @@ const SummonerCard = ({sumName, createLink}) => {
   let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
 
   useEffect(() => {
-    if(sumInfo.data != null){
-        if('status' in sumInfo.data){
-            console.log(sumInfo.data.status.message);
-            return;
-        }
-        setSummonerInfo(sumInfo.data.name);
-    }
-  }, [sumInfo]);
-
-  useEffect(() => {
-    if(data != null){
-        if('status' in data){
+    if(data != null && sumInfo.data != null){
+        if('status' in data || 'status' in sumInfo.data){
             console.log(data.status.message);
             return;
         }
+
+        setSummonerInfo(sumInfo.data.name);
         setRole(data.player.Role);
 
         let summonerBadges = data.player.badges;
@@ -47,12 +39,12 @@ const SummonerCard = ({sumName, createLink}) => {
           </div>
         )));
     }
-  }, [data]);
+  }, [data, sumInfo]);
 
   return (
     <div className="card">
       <div className="namePlate">
-        {createLink ? 
+        {activeGame ? 
           <Link to={`/${summonerName}`} className={`name ${highlight}`}>
             {summonerName} 
           </Link>
@@ -74,8 +66,9 @@ const SummonerCard = ({sumName, createLink}) => {
 }
 
 SummonerCard.defaultProps = {
-  createLink: false,
+  activeGame: false,
   sumName: undefined,
+  addToLobby: undefined,
 }
 
 export default SummonerCard
