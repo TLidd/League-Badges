@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import usePostFetch from "./usePostFetch";
 
-
+// check if summoner exists if not display does not exist
 const NoSummoner = ({summonerName}) => {
 
     let [summonerExists, setExists] = useState(true);

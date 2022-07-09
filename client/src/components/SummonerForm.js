@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {Navigate} from "react-router-dom"
 import "../Stylesheets/SummonerForm.css"
 import NoSummoner from "./NoSummoner";
@@ -10,7 +10,7 @@ const SummonerForm = () => {
 
     const [formName, setFormName] = useState(null);
 
-    const {data, isPending, error} = usePostFetch("summonerGame", formName);
+    const {data, isPending} = usePostFetch("summonerGame", formName);
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +35,8 @@ const SummonerForm = () => {
                 </div>
             </form>
             {isPending && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
-            {data && !isPending && <NoSummoner summonerName={formName}/>}
+            {!data?.gameId && !isPending && <NoSummoner summonerName={formName}/>}
+            {data?.gameId && !isPending && <Navigate to={`./${formName.user}/ActiveGame`} />}
         </div>
     )
 }
