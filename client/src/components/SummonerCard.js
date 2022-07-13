@@ -4,6 +4,7 @@ import usePostFetch from "./usePostFetch";
 import { useState, useEffect } from "react";
 
 const SummonerCard = ({sumName, activeGame}) => {
+  console.log(sumName);
   // let {name} = useParams();
 
   // let summonerName = sumName;
@@ -61,6 +62,7 @@ const SummonerCard = ({sumName, activeGame}) => {
           </div>
         }
       </div> */}
+      xdeeeeee
     </div>
   )
 }

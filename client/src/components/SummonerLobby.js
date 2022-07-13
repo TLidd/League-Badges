@@ -16,6 +16,8 @@ const SummonerLobby = () => {
     let [team2Layout, setTeam2] = useState(null);
 
     const {data} = usePostFetch("/summonerLobby", sumUser);
+    
+    console.log(data);
 
     // useEffect(() => {
     //     if(data?.gameId !== undefined){
@@ -38,6 +40,22 @@ const SummonerLobby = () => {
 
   return (
     <div style={{width:"100%"}}>
+        {
+            data?.team1 &&
+            <div>
+                Team1
+                <div className="flexbox-container">
+                    {
+                    Object.values(data?.team1).map(player => {
+                        return  <div className="flexbox-item" key={player.summonerName}>
+                                    <SummonerCard sumName= {player.summonerName} activeGame= {true}/>
+                                </div>
+                    })
+                    }
+                </div>
+            </div>
+        
+        }
         {/* {console.log(team1Layout)}
         {
             data && data?.gameId && 

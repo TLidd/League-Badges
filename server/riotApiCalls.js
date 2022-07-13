@@ -53,21 +53,20 @@ export async function getLobby(summonerName){
             return getPlayerHistory(player.summonerName);
         }))
         .catch(err => console.log(err));
-        console.log(lobbyData);
+        return {team1: lobbyData.slice(0,5), team2: lobbyData.slice(5,10)}
     }
 }
 
-async function getData(url){
+async function getData(url, retries = 5){
     let data;
     let jsonObj = await fetchData(url);
     if(jsonObj){
         data = await getJson(jsonObj);
     }
 
-    if(data?.status?.status_code === 429){
-        console.log(data)
+    if(data?.status?.status_code === 429 && retries != 0){
         await delay(1);
-        return getData(url);
+        return getData(url, retries - 1);
     }else{
         return data;
     }
