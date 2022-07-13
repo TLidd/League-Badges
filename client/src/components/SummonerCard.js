@@ -4,46 +4,46 @@ import usePostFetch from "./usePostFetch";
 import { useState, useEffect } from "react";
 
 const SummonerCard = ({sumName, activeGame}) => {
-  let {name} = useParams();
+  // let {name} = useParams();
 
-  let summonerName = sumName;
-  if(sumName === undefined){
-    summonerName = name;
-  }
+  // let summonerName = sumName;
+  // if(sumName === undefined){
+  //   summonerName = name;
+  // }
 
-  let [summonerInfoName, setSummonerInfo] = useState(null);
-  let [playerBadges, setBadges] = useState(null);
-  let [playerRole, setRole] = useState(null);
+  // let [summonerInfoName, setSummonerInfo] = useState(null);
+  // let [playerBadges, setBadges] = useState(null);
+  // let [playerRole, setRole] = useState(null);
 
-  const {data} = usePostFetch("/summonerHistory", {user: summonerName});
+  // const {data} = usePostFetch("/summonerHistory", {user: summonerName});
 
-  const sumInfo = usePostFetch("/summonerPost", {user: summonerName});
+  // const sumInfo = usePostFetch("/summonerPost", {user: summonerName});
 
-  let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
-  let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
+  // let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
+  // let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
 
-  useEffect(() => {
-    if(data != null && sumInfo.data != null){
-        if('status' in data || 'status' in sumInfo.data){
-            console.log(data.status.message);
-            return;
-        }
+  // useEffect(() => {
+  //   if(data != null && sumInfo.data != null){
+  //       if('status' in data || 'status' in sumInfo.data){
+  //           console.log(data.status.message);
+  //           return;
+  //       }
 
-        setSummonerInfo(sumInfo.data.name);
-        setRole(data.player.Role);
+  //       setSummonerInfo(sumInfo.data.name);
+  //       setRole(data.player.Role);
 
-        let summonerBadges = data.player.badges;
-        setBadges(Object.keys(summonerBadges).map((badge, index) => (
-          <div key={index} className={`${summonerBadges[badge]}`}>
-              {`${badge}`}
-          </div>
-        )));
-    }
-  }, [data, sumInfo]);
+  //       let summonerBadges = data.player.badges;
+  //       setBadges(Object.keys(summonerBadges).map((badge, index) => (
+  //         <div key={index} className={`${summonerBadges[badge]}`}>
+  //             {`${badge}`}
+  //         </div>
+  //       )));
+  //   }
+  // }, [data, sumInfo]);
 
   return (
     <div className="card">
-      <div className="namePlate">
+      {/* <div className="namePlate">
         {activeGame ? 
           <Link to={`/${summonerName}`} className={`name ${highlight}`}>
             {summonerName} 
@@ -60,7 +60,7 @@ const SummonerCard = ({sumName, activeGame}) => {
               <div> {playerBadges} </div>
           </div>
         }
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -68,7 +68,6 @@ const SummonerCard = ({sumName, activeGame}) => {
 SummonerCard.defaultProps = {
   activeGame: false,
   sumName: undefined,
-  addToLobby: undefined,
 }
 
 export default SummonerCard

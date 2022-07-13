@@ -1,6 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import { getCurrentGame, getPlayerHistory, getSummoner } from './riotApiCalls.js';
+import { getCurrentGame, getLobby, getPlayerHistory, getSummoner } from './riotApiCalls.js';
 
 const PORT = process.env.PORT || 4000;
 
@@ -12,7 +12,7 @@ app.get('/api', (req, res) =>{
     res.json({message: "This is a message from the server"});
 });
 
-app.post('/summonerPost', (req, res) =>{
+app.post('/summoner', (req, res) =>{
   let sumName = req.body['user'];
   getSummoner(sumName).then(data => res.json(data));
 });
@@ -30,6 +30,13 @@ app.post('/summonerHistory', (req, res) => {
     res.json({player: data});
   })
 });
+
+app.post('/summonerLobby', (req, res) => {
+  let sumName = req.body['user'];
+  getLobby(sumName).then(data => {
+    res.json(data);
+  });
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

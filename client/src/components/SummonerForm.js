@@ -10,7 +10,7 @@ const SummonerForm = () => {
 
     const [formName, setFormName] = useState(null);
 
-    const {data, isPending} = usePostFetch("summonerGame", formName);
+    const {data, isPending} = usePostFetch("/summonerGame", formName);
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -35,8 +35,8 @@ const SummonerForm = () => {
                 </div>
             </form>
             {isPending && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
-            {!data?.gameId && !isPending && <NoSummoner summonerName={formName}/>}
-            {data?.gameId && !isPending && <Navigate to={`./${formName.user}/ActiveGame`} />}
+            {data && data?.gameId && !isPending && <Navigate to={`./${formName.user}/ActiveGame`} />}
+            {data && !data?.gameId && !isPending && <NoSummoner summonerName={formName}/>}
         </div>
     )
 }
