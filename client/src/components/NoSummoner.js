@@ -3,7 +3,6 @@ import usePostFetch from "./usePostFetch";
 
 // check if summoner exists if not display does not exist
 const NoSummoner = ({summonerName}) => {
-    console.log("shouldnt be here")
     let [summonerExists, setExists] = useState(true);
 
     const {data} = usePostFetch("/summoner", summonerName);

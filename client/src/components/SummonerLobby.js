@@ -1,5 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom"
-import {useEffect, useState} from "react";
+import { useParams } from "react-router-dom"
+import {useState} from "react";
 import SummonerCard from "./SummonerCard"
 import SummonerData from "./SummonerData";
 import "../Stylesheets/SummonerLobby.css"
@@ -12,31 +12,7 @@ const SummonerLobby = () => {
 
     let [sumUser] = useState({user: name});
 
-    let [team1Layout, setTeam1] = useState(null);
-    let [team2Layout, setTeam2] = useState(null);
-
     const {data} = usePostFetch("/summonerLobby", sumUser);
-    
-    console.log(data);
-
-    // useEffect(() => {
-    //     if(data?.gameId !== undefined){
-    //         const team1 = data.participants.slice(0,5);
-    //         const team2 = data.participants.slice(5,11);
-    //         setTeam1(team1.map((summoner) => (
-    //             //SummonerData({summonerName: summoner.summonerName})
-    //             <div className="flexbox-item" key={summoner.summonerName}>
-    //                 <SummonerCard sumName= {summoner.summonerName} activeGame= {true}/>
-    //             </div>
-    //         )));
-    //         setTeam2(team2.map((summoner) => (
-    //             //SummonerData({summonerName: summoner.summonerName})
-    //             <div className="flexbox-item" key={summoner.summonerName}>
-    //                 <SummonerCard sumName= {summoner.summonerName} activeGame= {true}/>
-    //             </div>
-    //         )));
-    //     }
-    // }, [data]);
 
   return (
     <div style={{width:"100%"}}>
@@ -47,8 +23,18 @@ const SummonerLobby = () => {
                 <div className="flexbox-container">
                     {
                     Object.values(data?.team1).map(player => {
-                        return  <div className="flexbox-item" key={player.summonerName}>
-                                    <SummonerCard sumName= {player.summonerName} activeGame= {true}/>
+                        return  <div className="flexbox-item" key={player.SummonerName}>
+                                    <SummonerCard sumName= {player.SummonerName} sumRole= {player.Role} sumBadges= {player.badges} activeGame= {true}/>
+                                </div>
+                    })
+                    }
+                </div>
+                Team2
+                <div className="flexbox-container">
+                    {
+                    Object.values(data?.team2).map(player => {
+                        return  <div className="flexbox-item" key={player.SummonerName}>
+                                    <SummonerCard sumName= {player.SummonerName} sumRole= {player.Role} sumBadges= {player.badges} activeGame= {true}/>
                                 </div>
                     })
                     }
