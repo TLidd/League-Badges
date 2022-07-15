@@ -12,7 +12,7 @@ const SummonerLobby = () => {
 
     let [sumUser] = useState({user: name});
 
-    const {data} = usePostFetch("/summonerLobby", sumUser);
+    const {data, isPending, error} = usePostFetch("/summonerLobby", sumUser);
 
   return (
     <div style={{width:"100%"}}>
@@ -60,6 +60,8 @@ const SummonerLobby = () => {
         {data && !team1Layout && !team2Layout &&
             <ActiveGame sumName={sumUser} />
         } */}
+        {isPending && <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />}
+
     </div>
     
   )
