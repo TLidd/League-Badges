@@ -5,7 +5,7 @@ import "../Stylesheets/ActiveGame.css"
 
 const ActiveGame = ({sumName}) => {
 
-    const {data} = usePostFetch("/summoner", sumName);
+    const {data} = usePostFetch("/getSummoner", sumName);
     const navigate = useNavigate();
 
     const SummonerPage = (e) => {

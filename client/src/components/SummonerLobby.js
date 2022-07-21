@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom"
 import {useState} from "react";
 import SummonerCard from "./SummonerCard"
-import SummonerData from "./SummonerData";
 import "../Stylesheets/SummonerLobby.css"
 import usePostFetch from "./usePostFetch";
 import ActiveGame from "./ActiveGame";
@@ -12,7 +11,7 @@ const SummonerLobby = () => {
 
     let [sumUser] = useState({user: name});
 
-    const {data, isPending, error} = usePostFetch("/summonerLobby", sumUser);
+    const {data, isPending} = usePostFetch("/summonerLobby", sumUser);
 
   return (
     <div style={{width:"100%"}}>
@@ -42,25 +41,8 @@ const SummonerLobby = () => {
             </div>
         
         }
-        {/* {console.log(team1Layout)}
-        {
-            data && data?.gameId && 
-            <div>
-                Team 1
-                <div className="flexbox-container">
-                    {team1Layout}
-                </div>
-                Team 2
-                <div className="flexbox-container">
-                    {team2Layout}
-                </div>
-            </div>    
-        }
-
-        {data && !team1Layout && !team2Layout &&
-            <ActiveGame sumName={sumUser} />
-        } */}
         {isPending && <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />}
+        {!isPending && !data && <ActiveGame sumName={sumUser}/>}
 
     </div>
     

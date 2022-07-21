@@ -10,9 +10,9 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
   }
 
   let badgeDescriptions = {
-    Warder: "The Summoner's Vision Score",
-    TowerDestroyer: "The Damage done to structures",
-    CreepKiller: "The Summoner's creep score",
+    Warder: "Vision Score:",
+    TowerDestroyer: "Turret Damage:",
+    CreepKiller: "Creep Score:",
   }
 
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
@@ -26,7 +26,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
             {summonerName} 
           </Link>
           :
-          sumName
+          summonerName
         }
       </div>
       <div>
@@ -37,8 +37,8 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
                 <div className="badges">
                   {
                       Object.keys(sumBadges).map((badge) => {
-                        return <div title={badgeDescriptions[badge]} className={`${sumBadges[badge]} badge`} key={`${badge}`}>
-                                    {badge}
+                        return <div title={`${badgeDescriptions[badge]} ${sumBadges[badge]}`} className={`${sumBadges[badge]} badge`} key={`${badge}`}>
+                                    <img className="icon" src={require(`../assets/${badge}.png`)} alt=""/>
                                 </div>
                       })
                   }

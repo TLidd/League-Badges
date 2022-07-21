@@ -12,7 +12,7 @@ app.get('/api', (req, res) =>{
     res.json({message: "This is a message from the server"});
 });
 
-app.post('/summoner', (req, res) =>{
+app.post('/getSummoner', (req, res) =>{
   let sumName = req.body['user'];
   getSummoner(sumName).then(data => res.json(data));
 });
