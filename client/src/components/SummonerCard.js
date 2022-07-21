@@ -38,7 +38,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
                   {
                       Object.keys(sumBadges).map((badge) => {
                         return <div title={`${badgeDescriptions[badge]} ${sumBadges[badge]}`} className={`${sumBadges[badge]} badge`} key={`${badge}`}>
-                                    <img className="icon" src={require(`../assets/${badge}.png`)} alt=""/>
+                                    <img src={require(`../assets/${badge}.png`)} alt=""/>
                                 </div>
                       })
                   }
