@@ -1,9 +1,15 @@
 import { useParams } from "react-router-dom"
 import {useState} from "react";
+import {useQuery} from "@tanstack/react-query"
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
 import usePostFetch from "./usePostFetch";
 import ActiveGame from "./ActiveGame";
+
+const fetchLobby = async (name) => {
+    const res = await fetch(`/lobby/${name}`);
+    return res.json();
+}
 
 const SummonerLobby = () => {
 
@@ -11,7 +17,13 @@ const SummonerLobby = () => {
 
     let [sumUser] = useState({user: name});
 
-    const {data, isPending} = usePostFetch("/summonerLobby", sumUser);
+    const {data, isLoading} = useQuery(
+        ["lobby", sumUser.user],
+        () => fetchLobby(sumUser.user),
+        {
+            staleTime: 150000,
+        }
+    )
 
   return (
     <div style={{width:"100%"}}>
@@ -41,8 +53,8 @@ const SummonerLobby = () => {
             </div>
         
         }
-        {isPending && <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />}
-        {!isPending && !data && <ActiveGame sumName={sumUser}/>}
+        {isLoading && <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />}
+        {!isLoading && !data && <ActiveGame sumName={sumUser}/>}
 
     </div>
     

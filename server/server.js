@@ -38,6 +38,13 @@ app.post('/summonerLobby', (req, res) => {
   });
 })
 
+app.get('/lobby/:name', (req, res) => {
+  let sumName = req.params.name;
+  getLobby(sumName).then(data => {
+    res.json(data);
+  });
+})
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
