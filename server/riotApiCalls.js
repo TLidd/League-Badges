@@ -46,7 +46,7 @@ export async function getPlayerHistory(summonerName){
     return player.getPlayerData();
 }
 
-export async function getLobby(summonerName){
+export async function getLobbyData(summonerName){
     let gameData = await getCurrentGame(summonerName);
     if(gameData?.participants){
         let lobbyData = await Promise.all(Object.values(gameData.participants).map(player => {
@@ -54,6 +54,16 @@ export async function getLobby(summonerName){
         }))
         .catch(err => console.log(err));
         return {team1: lobbyData.slice(0,5), team2: lobbyData.slice(5,10)}
+    }
+}
+
+export async function getLobbyNames(summonerName){
+    let currentGame = await getCurrentGame(summonerName);
+    if(currentGame){
+        let lobby = currentGame.participants.map(player => {
+            return player.summonerName;
+        });
+        return lobby;
     }
 }
 

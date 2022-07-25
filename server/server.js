@@ -1,6 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import { getCurrentGame, getLobby, getPlayerHistory, getSummoner } from './riotApiCalls.js';
+import { getCurrentGame, getLobbyData, getPlayerHistory, getSummoner, getLobbyNames } from './riotApiCalls.js';
 
 const PORT = process.env.PORT || 4000;
 
@@ -33,14 +33,21 @@ app.post('/summonerHistory', (req, res) => {
 
 app.post('/summonerLobby', (req, res) => {
   let sumName = req.body['user'];
-  getLobby(sumName).then(data => {
+  getLobbyData(sumName).then(data => {
     res.json(data);
   });
 })
 
-app.get('/lobby/:name', (req, res) => {
+app.get('/lobbyData/:name', (req, res) => {
   let sumName = req.params.name;
-  getLobby(sumName).then(data => {
+  getLobbyData(sumName).then(data => {
+    res.json(data);
+  });
+})
+
+app.get('/getLobbyList/:name', (req, res) => {
+  let sumName = req.params.name;
+  getLobbyNames(sumName).then(data => {
     res.json(data);
   });
 })

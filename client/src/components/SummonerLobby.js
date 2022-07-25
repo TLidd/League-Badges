@@ -3,11 +3,11 @@ import {useState} from "react";
 import {useQuery} from "@tanstack/react-query"
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
-import usePostFetch from "./usePostFetch";
+import useGetFetch from "./useGetFetch";
 import ActiveGame from "./ActiveGame";
 
 const fetchLobby = async (name) => {
-    const res = await fetch(`/lobby/${name}`);
+    const res = await fetch(`/lobbyData/${name}`);
     return res.json();
 }
 
@@ -17,13 +17,24 @@ const SummonerLobby = () => {
 
     let [sumUser] = useState({user: name});
 
+    let lobby = useGetFetch(`/getLobbyList/${name}`);
+
+    /*get the first user in the lobby to represent the game lead for the cache.
+      this will allow the user to select someone in the same game to lookup active game
+      and the data will still be cached for them */
+    let gameLead = null;
+    if(lobby?.data){
+        gameLead = Object.values(lobby.data)[0]
+    }
+
     const {data, isLoading} = useQuery(
-        ["lobby", sumUser.user],
+        ["Lobby", gameLead],
         () => fetchLobby(sumUser.user),
         {
             staleTime: 150000,
+            enabled: !!gameLead,
         }
-    )
+    );
 
   return (
     <div style={{width:"100%"}}>
