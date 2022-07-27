@@ -1,52 +1,73 @@
 import { useParams } from "react-router-dom"
-import {useState} from "react";
-import {useQuery} from "@tanstack/react-query"
+import {useEffect, useState} from "react";
+import {useQueries} from "@tanstack/react-query"
 import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
 import useGetFetch from "./useGetFetch";
 import ActiveGame from "./ActiveGame";
 
-const fetchLobby = async (name) => {
-    const res = await fetch(`/lobbyData/${name}`);
+const fetchPlayerData = async (name) => {
+    const res = await fetch(`/summonerData/${name}`);
     return res.json();
 }
 
 const SummonerLobby = () => {
-
     let {name} = useParams();
 
     let [sumUser] = useState({user: name});
 
+    let [loading, setLoading] = useState(true);
+
     let lobby = useGetFetch(`/getLobbyList/${name}`);
 
-    /*get the first user in the lobby to represent the game lead for the cache.
-      this will allow the user to select someone in the same game to lookup active game
-      and the data will still be cached for them */
-    let gameLead = null;
+    let gameParticipants = null;
     if(lobby?.data){
-        gameLead = Object.values(lobby.data)[0]
+        gameParticipants = Object.values(lobby.data)
     }
 
-    const {data, isLoading} = useQuery(
-        ["Lobby", gameLead],
-        () => fetchLobby(sumUser.user),
-        {
-            staleTime: 150000,
-            enabled: !!gameLead,
+    const lobbyQuery = useQueries({
+        queries: lobby?.data ? gameParticipants.map(participant => {
+            return {
+                queryKey: ['summonerBadgeData', participant.toLowerCase()],
+                queryFn: () => fetchPlayerData(participant),
+                enabled: !!lobby,
+            }
+        }) : []
+    })
+
+    useEffect(() => {
+        if(lobbyQuery){
+            if(lobbyQuery.every(result => result.data)){
+                if(lobbyQuery.length == 10){
+                    if(!lobbyQuery.some(result => result.isLoading)){
+                        setLoading(false);
+                    }
+                }
+            }
         }
-    );
+    }, [lobbyQuery])
+
+    let team1 = [];
+    let team2 = [];
+    if(loading){
+        return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
+    }
+    else if(!loading){
+        team1 = lobbyQuery.slice(0, 5);
+        team2 = lobbyQuery.slice(5, 10);
+    }
 
   return (
     <div style={{width:"100%"}}>
         {
-            data?.team1 &&
+            team1.length != 0 && team2.length != 0 &&
             <div>
                 Team1
                 <div className="flexbox-container">
                     {
-                    Object.values(data?.team1).map(player => {
-                        return  <div className="flexbox-item" key={player.SummonerName}>
-                                    <SummonerCard sumName= {player.SummonerName} sumRole= {player.Role} sumBadges= {player.badges} activeGame= {true}/>
+                    team1.map(player => {
+                        return  <div className="flexbox-item" key={player.data.SummonerName}>
+                                    <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
                                 </div>
                     })
                     }
@@ -54,9 +75,9 @@ const SummonerLobby = () => {
                 Team2
                 <div className="flexbox-container">
                     {
-                    Object.values(data?.team2).map(player => {
-                        return  <div className="flexbox-item" key={player.SummonerName}>
-                                    <SummonerCard sumName= {player.SummonerName} sumRole= {player.Role} sumBadges= {player.badges} activeGame= {true}/>
+                    team2.map(player => {
+                        return  <div className="flexbox-item" key={player.data.SummonerName}>
+                                    <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
                                 </div>
                     })
                     }
@@ -64,8 +85,7 @@ const SummonerLobby = () => {
             </div>
         
         }
-        {isLoading && <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />}
-        {!isLoading && !data && <ActiveGame sumName={sumUser}/>}
+        {/* {lobbyQuery && !lobby && <ActiveGame sumName={sumUser}/>} */}
 
     </div>
     

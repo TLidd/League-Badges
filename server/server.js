@@ -38,6 +38,13 @@ app.post('/summonerLobby', (req, res) => {
   });
 })
 
+app.get('/summonerData/:name', (req, res) => {
+  let sumName = req.params.name;
+  getPlayerHistory(sumName).then(data => {
+    res.json(data);
+  });
+})
+
 app.get('/lobbyData/:name', (req, res) => {
   let sumName = req.params.name;
   getLobbyData(sumName).then(data => {
