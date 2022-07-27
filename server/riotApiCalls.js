@@ -59,7 +59,7 @@ export async function getLobbyData(summonerName){
 
 export async function getLobbyNames(summonerName){
     let currentGame = await getCurrentGame(summonerName);
-    if(currentGame){
+    if(currentGame?.participants){
         let lobby = currentGame.participants.map(player => {
             return player.summonerName;
         });

@@ -13,6 +13,9 @@ class leaguePlayer{
         totalVisionPoints : 0,
         totalCSBadgePoints : 0,
         turretDmgBadgePoints : 0,
+        damageDealtChamps : 0,
+        damageTaken: 0,
+        totalWardsDestroyed : 0,
     }
 
     playedRoles = {
@@ -43,19 +46,24 @@ class leaguePlayer{
     processData(){
         this.matchHistory.map(match => {
             if(match.hasOwnProperty('info')){
-                let playersList = match.info.participants;
+                if(match?.info?.participants){
+                    let playersList = match.info.participants;
 
-                this.matches.gamesPlayed++;
-                this.calculateAggro(playersList);
+                    this.matches.gamesPlayed++;
+                    this.calculateAggro(playersList);
 
-                let summonerRole = this.getSummonerMatchInfo(playersList).teamPosition
-                this.playedRoles[summonerRole] += 1;
+                    let summonerRole = this.getSummonerMatchInfo(playersList).teamPosition
+                    this.playedRoles[summonerRole] += 1;
 
-                this.matches.totalVisionPoints += this.compareScoresToLobby(playersList, 'visionScore');
-                this.matches.totalCSBadgePoints += this.compareScoresToLobby(playersList, 'totalMinionsKilled');
-                this.matches.turretDmgBadgePoints += this.compareScoresToLobby(playersList, 'damageDealtToTurrets');
+                    this.matches.totalVisionPoints += this.compareScoresToLobby(playersList, 'visionScore');
+                    this.matches.totalCSBadgePoints += this.compareScoresToLobby(playersList, 'totalMinionsKilled');
+                    this.matches.turretDmgBadgePoints += this.compareScoresToLobby(playersList, 'damageDealtToTurrets');
+                    this.matches.damageDealtChamps += this.compareScoresToLobby(playersList, "totalDamageDealtToChampions");
+                    this.matches.damageTaken += this.compareScoresToLobby(playersList, "totalDamageTaken");
+                    this.matches.totalWardsDestroyed += this.compareScoresToLobby(playersList, "wardsKilled");
 
-                this.gamesPlayed++
+                    this.gamesPlayed++
+                }
             }
         })
     }
@@ -77,8 +85,8 @@ class leaguePlayer{
 
     //return only the summoner's match info (just the one participant)
     getSummonerMatchInfo(participants){
-        let summoner = participants.find(participant => participant.summonerName == this.name);
-        return summoner;
+        let summonerInfo = participants.find(participant => participant.summonerName == this.name);
+        return summonerInfo;
     }
 
     /*takes a key of the summoner and compares it to the rest of the participants
@@ -118,9 +126,13 @@ class leaguePlayer{
 
     getPlayerData(){
         if(this.gamesPlayed != 0){
+            this.addFirstBloodBadge();
             this.addBadge("Warder", this.matches.totalVisionPoints);
             this.addBadge("CreepKiller", this.matches.totalCSBadgePoints);
             this.addBadge("TowerDestroyer", this.matches.turretDmgBadgePoints);
+            this.addBadge("DamageDealt", this.matches.damageDealtChamps);
+            this.addBadge("DamageTaken", this.matches.damageTaken);
+            this.addBadge("WardsDestroyed", this.matches.wardsDestroyed);
 
             let max = 0;
             for(let key in this.playedRoles){
@@ -145,6 +157,19 @@ class leaguePlayer{
             this.playerData.badges[badgeName] = "Good";
         }
         return;
+    }
+
+    addFirstBloodBadge(){
+        let percentage = (this.matches.firstBloods / this.gamesPlayed)*100;
+        if(percentage >= 30 && percentage < 40){
+            this.playerData.badges["FirstBloods"] = "Good";
+        }
+        else if(percentage >= 40 && percentage < 50){
+            this.playerData.badges["FirstBloods"] = "Great";
+        }
+        else if(percentage >= 50){
+            this.playerData.badges["FirstBloods"] = "Excellent";
+        }
     }
 
     printData(){
