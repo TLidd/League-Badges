@@ -1,15 +1,12 @@
 //checks if summoner is in an active game
 import { useNavigate } from "react-router-dom"
-import usePostFetch from "./usePostFetch";
 import "../Stylesheets/ActiveGame.css"
 
-const ActiveGame = ({sumName}) => {
-
-    const {data} = usePostFetch("/getSummoner", sumName);
+const ActiveGame = ({searchedName, actualName}) => {
     const navigate = useNavigate();
 
     const SummonerPage = (e) => {
-        navigate(`/${data.name}`);
+        navigate(`/${searchedName}`);
     }
 
     const SumForm = (e) => {
@@ -19,19 +16,19 @@ const ActiveGame = ({sumName}) => {
     return (
         <>
         {
-            data && data?.name &&
+            actualName &&
             <div className="center">
                 <p className="text">
-                    {data.name} is not in an active game
+                    {actualName} is not in an active game
                 </p>
                 <button className="button" onClick={SummonerPage}>View Summoner's Page</button>
             </div> 
         }
         {
-            data && !data?.name &&
+            !actualName &&
             <div className="center">
                 <p className="text">
-                    {sumName.user} does not exist
+                    {searchedName} does not exist
                 </p>
                 <button className="button" onClick={SumForm}>Search New Summoner</button>
             </div>

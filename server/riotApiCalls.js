@@ -10,7 +10,11 @@ export async function getSummoner(summonerName){
 
 export async function getCurrentGame(summonerName){
     let summonerInfo = await getSummoner(summonerName);
+    if(summonerInfo?.status){
+        return summonerInfo;
+    }
     let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${apiCallKey}`);
+    data.summonerName = summonerInfo.name;
     return data;
 }
 
@@ -59,6 +63,9 @@ export async function getLobbyData(summonerName){
 
 export async function getLobbyNames(summonerName){
     let currentGame = await getCurrentGame(summonerName);
+    if(currentGame?.status){
+        return currentGame;
+    }
     if(currentGame?.participants){
         let lobby = currentGame.participants.map(player => {
             return player.summonerName;

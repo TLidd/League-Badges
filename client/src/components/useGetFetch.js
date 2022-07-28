@@ -16,9 +16,15 @@ const usePostFetch = (url) => {
             return res.json();
         })
         .then(data => {
-            setData(data);
+            if(data?.status){
+                setError(data);
+                setData(null);
+            }
+            else{
+                setData(data);
+                setError(null);
+            }
             setIsPending(false);
-            setError(null);
         })
         .catch(err => {
             if(err.name === "AbortError"){

@@ -14,15 +14,13 @@ const fetchPlayerData = async (name) => {
 const SummonerLobby = () => {
     let {name} = useParams();
 
-    let [sumUser] = useState({user: name});
-
     let [loading, setLoading] = useState(true);
 
     let lobby = useGetFetch(`/getLobbyList/${name}`);
 
     let gameParticipants = null;
     if(lobby?.data){
-        gameParticipants = Object.values(lobby.data)
+        gameParticipants = Object.values(lobby.data);
     }
 
     const lobbyQuery = useQueries({
@@ -49,12 +47,15 @@ const SummonerLobby = () => {
 
     let team1 = [];
     let team2 = [];
-    if(loading){
+    console.log(lobby);
+    if(loading && !lobby.error){
         return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
     }
     else if(!loading){
-        team1 = lobbyQuery.slice(0, 5);
-        team2 = lobbyQuery.slice(5, 10);
+        if(lobbyQuery.length == 10){
+            team1 = lobbyQuery.slice(0, 5);
+            team2 = lobbyQuery.slice(5, 10);
+        }
     }
 
   return (
@@ -85,7 +86,7 @@ const SummonerLobby = () => {
             </div>
         
         }
-        {/* {lobbyQuery && !lobby && <ActiveGame sumName={sumUser}/>} */}
+        {lobby.error && team1 != [] && team2 != [] && <ActiveGame searchedName={name} actualName={lobby.error?.summonerName}/>}
 
     </div>
     
