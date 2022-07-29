@@ -16,6 +16,8 @@ class leaguePlayer{
         damageDealtChamps : 0,
         damageTaken: 0,
         totalWardsDestroyed : 0,
+        // dragons : 0,
+        goldEarned : 0,
     }
 
     playedRoles = {
@@ -61,6 +63,8 @@ class leaguePlayer{
                     this.matches.damageDealtChamps += this.compareScoresToLobby(playersList, "totalDamageDealtToChampions");
                     this.matches.damageTaken += this.compareScoresToLobby(playersList, "totalDamageTaken");
                     this.matches.totalWardsDestroyed += this.compareScoresToLobby(playersList, "wardsKilled");
+                    // this.matches.dragons += this.compareScoresToLobby(playersList, "dragonKills");
+                    this.matches.goldEarned += this.compareScoresToLobby(playersList, "goldEarned");
 
                     this.gamesPlayed++
                 }
@@ -133,6 +137,8 @@ class leaguePlayer{
             this.addBadge("DamageDealt", this.matches.damageDealtChamps);
             this.addBadge("DamageTaken", this.matches.damageTaken);
             this.addBadge("WardsDestroyed", this.matches.wardsDestroyed);
+            // this.addBadge("Dragons", this.matches.dragons);
+            this.addBadge("GoldEarned", this.matches.goldEarned);
 
             let max = 0;
             for(let key in this.playedRoles){
