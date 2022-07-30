@@ -13,6 +13,11 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
     Warder: "Vision Score:",
     TowerDestroyer: "Turret Damage:",
     CreepKiller: "Creep Score:",
+    DamageDealt: "Damage dealt to champions:",
+    DamageTaken: "Damage taken:",
+    WardsDestroyed: "Wards destroyed:",
+    GoldEarned: "Gold earned:",
+    FirstBloods: "First Bloods in game:",
   }
 
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();

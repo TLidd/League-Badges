@@ -36,7 +36,7 @@ const SummonerLobby = () => {
     useEffect(() => {
         if(lobbyQuery){
             if(lobbyQuery.every(result => result.data)){
-                if(lobbyQuery.length == 10){
+                if(lobbyQuery.length === 10){
                     if(!lobbyQuery.some(result => result.isLoading)){
                         setLoading(false);
                     }
@@ -52,7 +52,7 @@ const SummonerLobby = () => {
         return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
     }
     else if(!loading){
-        if(lobbyQuery.length == 10){
+        if(lobbyQuery.length === 10){
             team1 = lobbyQuery.slice(0, 5);
             team2 = lobbyQuery.slice(5, 10);
         }
@@ -61,7 +61,7 @@ const SummonerLobby = () => {
   return (
     <div style={{width:"100%"}}>
         {
-            team1.length != 0 && team2.length != 0 &&
+            team1.length !== 0 && team2.length !== 0 &&
             <div>
                 Team1
                 <div className="flexbox-container">
@@ -86,7 +86,7 @@ const SummonerLobby = () => {
             </div>
         
         }
-        {lobby.error && team1 != [] && team2 != [] && <ActiveGame searchedName={name} actualName={lobby.error?.summonerName}/>}
+        {lobby.error && team1 !== [] && team2 !== [] && <ActiveGame searchedName={name} actualName={lobby.error?.summonerName}/>}
 
     </div>
     
