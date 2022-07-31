@@ -59,7 +59,7 @@ a:link {
 }
 
 .badge{
-    margin: 20%;
+    margin: 10%;
     width: 65%;
     aspect-ratio: 1 / 1;
     border-radius: 20%;
@@ -74,12 +74,30 @@ a:link {
     display: block;
 }
 
+.team{
+    margin-top: 1%;
+}
+
+.team-title{
+    margin-bottom: .5%;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.blue-team{
+    color: rgb(0, 160, 160);
+}
+
+.red-team{
+    color: rgb(157, 0, 0);
+}
+
 .Good{
-    background-color: white;
+    background-color: rgb(255, 255, 107);
 }
 
 .Great{
-    background-color: yellow;
+    background-color: #8ce900;
 }
 
 .Excellent{
