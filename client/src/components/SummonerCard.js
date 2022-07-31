@@ -20,6 +20,8 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
     FirstBloods: "First Bloods in game:",
   }
 
+  let badgeLevel = ["Good", "Great", "Excellent"];
+
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
   let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
 
@@ -42,7 +44,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
                 <div className="badges">
                   {
                       Object.keys(sumBadges).map((badge) => {
-                        return <div title={`${badgeDescriptions[badge]} ${sumBadges[badge]}`} className={`${sumBadges[badge]} badge`} key={`${badge}`}>
+                        return <div title={`${badgeDescriptions[badge]} ${sumBadges[badge]}`} className={`${badgeLevel[sumBadges[badge]]} badge`} key={`${badge}`}>
                                     <img src={require(`../assets/${badge}.png`)} alt=""/>
                                 </div>
                       })

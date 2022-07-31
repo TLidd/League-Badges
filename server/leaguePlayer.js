@@ -147,6 +147,9 @@ class leaguePlayer{
                     max = this.playedRoles[key];
                 }
             }
+            this.playerData.badges = Object.entries(this.playerData.badges)
+            .sort(([,a],[,b]) => b-a)
+            .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
         }
         return this.playerData;
     }
@@ -154,13 +157,13 @@ class leaguePlayer{
     addBadge(badgeName, totalBadgePoints){
         let avgBadgePoints = (totalBadgePoints/this.gamesPlayed).toFixed(3);
         if(avgBadgePoints > 1.75){
-            this.playerData.badges[badgeName] = "Excellent";
+            this.playerData.badges[badgeName] = 2;
         }
         else if(avgBadgePoints > 1.5){
-            this.playerData.badges[badgeName] = "Great";
+            this.playerData.badges[badgeName] = 1;
         }
         else if(avgBadgePoints > 1.25){
-            this.playerData.badges[badgeName] = "Good";
+            this.playerData.badges[badgeName] = 0;
         }
         return;
     }
@@ -168,13 +171,13 @@ class leaguePlayer{
     addFirstBloodBadge(){
         let percentage = (this.matches.firstBloods / this.gamesPlayed)*100;
         if(percentage >= 30 && percentage < 40){
-            this.playerData.badges["FirstBloods"] = "Good";
+            this.playerData.badges["FirstBloods"] = 0;
         }
         else if(percentage >= 40 && percentage < 50){
-            this.playerData.badges["FirstBloods"] = "Great";
+            this.playerData.badges["FirstBloods"] = 1;
         }
         else if(percentage >= 50){
-            this.playerData.badges["FirstBloods"] = "Excellent";
+            this.playerData.badges["FirstBloods"] = 2;
         }
     }
 
