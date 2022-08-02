@@ -1,0 +1,27 @@
+.player-name{
+    margin-top: 3%;
+    font-size: 150%;
+    color: #bf8600;
+    display: inline-block;
+    padding: 1%;
+}
+
+.badgeBar{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #bf8600;
+    margin: auto;
+    padding: 0.5%;
+    border-radius: 40px;
+}
+
+.noSummoner{
+    margin: 0;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #bf8600;
+}

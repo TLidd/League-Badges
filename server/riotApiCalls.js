@@ -25,29 +25,31 @@ export async function getPlayerHistory(summonerName){
     const puuid = summonerInfo["puuid"];
 
     //get match id list from puuid
-    let matchIds = await getData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${apiCallKey}`);
+    if(puuid){
+        let matchIds = await getData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${apiCallKey}`);
 
-    //get match data from each match id 
-    //note when '{}' is used here the return needs to be explicit
-    //the return is implicit if it is written like
-    // const matches = await Promise.all(Object.values(matchIds).map(matchId => 
-    //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
-    // ));
-    let matches = await Promise.all(Object.values(matchIds).map(matchId => {
-        return getData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
-    }))
-    .catch(err => console.log(err));
+        //get match data from each match id 
+        //note when '{}' is used here the return needs to be explicit
+        //the return is implicit if it is written like
+        // const matches = await Promise.all(Object.values(matchIds).map(matchId => 
+        //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
+        // ));
+        let matches = await Promise.all(Object.values(matchIds).map(matchId => {
+            return getData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
+        }))
+        .catch(err => console.log(err));
 
-    let player = new leaguePlayer(summonerName, matches);
+        let player = new leaguePlayer(summonerInfo.name, matches);
 
-    try{
-        player.processData();
+        try{
+            player.processData();
+        }
+        catch(error){
+            console.error("Error Received getPlayerHistory: " + error);
+        }
+
+        return player.getPlayerData();
     }
-    catch(error){
-        console.error("Error Received getPlayerHistory: " + error);
-    }
-    
-    return player.getPlayerData();
 }
 
 export async function getLobbyData(summonerName){

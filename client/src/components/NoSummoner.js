@@ -30,7 +30,7 @@ const NoSummoner = ({summonerName}) => {
                 {`${summonerName.user} does not exist`}
             </div>
             }
-            {console.log(summonerExists)}
+
             {summonerExists && data?.name && <Navigate to={`/${data?.name}`} />}   
         </div>
     )

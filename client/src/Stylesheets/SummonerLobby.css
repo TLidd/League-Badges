@@ -17,3 +17,25 @@
     width: 10%;
     height: 10%;
 }
+
+.team{
+    margin-top: 0.5%;
+}
+
+.team-title{
+    margin-bottom: .5%;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.blue-team{
+    color: rgb(0, 160, 160);
+    border: 2px solid rgb(0, 160, 160);
+}
+
+.red-team{
+    color: rgb(157, 0, 0);
+    border: 2px solid rgb(157, 0, 0);
+}
