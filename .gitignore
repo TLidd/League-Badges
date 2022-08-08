@@ -8,9 +8,6 @@ client/.pnp.js
 # testing
 client/coverage
 
-# production
-client/build
-
 # misc
 client/.DS_Store
 client/.env.local
@@ -24,9 +21,9 @@ client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
 
-riotApiKey.js
-
 node_modules
 npm-debug.log
 .DS_Store
 *.env
+
+testApi.js

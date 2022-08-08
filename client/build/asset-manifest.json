@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b42d2a82.css",
+    "main.js": "/static/js/main.e0ff4c09.js",
+    "static/media/loading2.gif": "/static/media/loading2.6592a2a8ad46db0fba2c.gif",
+    "static/media/WardsDestroyed.png": "/static/media/WardsDestroyed.66c74c22831f1b838d98.png",
+    "static/media/Warder.png": "/static/media/Warder.1b2cbd7f495a321501d0.png",
+    "static/media/TowerDestroyer.png": "/static/media/TowerDestroyer.09378ca55a0b4ed42200.png",
+    "static/media/loading.gif": "/static/media/loading.0f8e3ead3dcf6f8b6f69.gif",
+    "static/media/DamageTaken.png": "/static/media/DamageTaken.43cc96a31e2c869c38e8.png",
+    "static/media/CreepKiller.png": "/static/media/CreepKiller.2dc34252f8bceb74030a.png",
+    "static/media/GoldEarned.png": "/static/media/GoldEarned.787d6ffbbda61082a649.png",
+    "static/media/Dragons.png": "/static/media/Dragons.f70b1f6684d44ba37856.png",
+    "static/media/DamageDealt.png": "/static/media/DamageDealt.7c0cd1c05abcdc688330.png",
+    "static/media/JUNGLE.png": "/static/media/JUNGLE.3216086db0fa22b078be.png",
+    "index.html": "/index.html",
+    "main.b42d2a82.css.map": "/static/css/main.b42d2a82.css.map",
+    "main.e0ff4c09.js.map": "/static/js/main.e0ff4c09.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b42d2a82.css",
+    "static/js/main.e0ff4c09.js"
+  ]
+}

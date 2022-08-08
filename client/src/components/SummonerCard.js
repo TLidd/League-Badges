@@ -39,7 +39,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
       <div>
         {sumRole && sumBadges && 
           <div>
-              <img title="Most Played Role" src={require(`../../public/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>
+              <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>
               <div className="grid-container">
                 <div className="badges">
                   {
