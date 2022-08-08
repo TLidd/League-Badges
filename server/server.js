@@ -8,6 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var cors = require("cors");
+app.use(cors);
+
 app.get('/api', (req, res) =>{
     res.json({message: "This is a message from the server"});
 });
