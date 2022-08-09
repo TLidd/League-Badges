@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import {apiCallKey} from "./testApi.js"
+import {apiCallKey} from "./riotApiKey.js"
 import leaguePlayer from "./leaguePlayer.js"
 import { json } from 'express';
 
