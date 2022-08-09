@@ -4,6 +4,9 @@
   "type": "module",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "14.18.0"
+  },
   "scripts": {
     "start": "nodemon server.js",
     "test": "jasmine",
