@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import usePostFetch from "./usePostFetch";
-import {Navigate} from "react-router-dom"
+import {Navigate} from "react-router-dom";
+import "../Stylesheets/NoSummoner.css";
 
 // check if summoner exists if not display does not exist
 const NoSummoner = ({summonerName}) => {
