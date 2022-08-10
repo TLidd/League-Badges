@@ -27,10 +27,11 @@ const NoSummoner = ({summonerName}) => {
 
     return (
         <div>
-            {!summonerExists && 
-            <div className="noSummonerExists">
-                {`${summonerName.user} does not exist`}
-            </div>
+            {
+                !summonerExists && 
+                <div className="noSummonerExists">
+                    {`${summonerName.user} does not exist`}
+                </div>
             }
 
             {summonerExists && data?.name && <Navigate to={`/${data?.name}`} />}   
