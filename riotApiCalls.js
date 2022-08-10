@@ -4,7 +4,7 @@ import leaguePlayer from "./leaguePlayer.js"
 import { json } from 'express';
 
 export async function getSummoner(summonerName){
-    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
     return summonerInfo;
 }
 
@@ -13,20 +13,20 @@ export async function getCurrentGame(summonerName){
     if(summonerInfo?.status){
         return summonerInfo;
     }
-    let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${apiCallKey}`);
+    let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${process.env.RIOT_KEY}`);
     data.summonerName = summonerInfo.name;
     return data;
 }
 
 export async function getPlayerHistory(summonerName){
     //get summoner puuid from name
-    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiCallKey}`);
+    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
 
     const puuid = summonerInfo["puuid"];
 
     //get match id list from puuid
     if(puuid){
-        let matchIds = await getData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${apiCallKey}`);
+        let matchIds = await getData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${process.env.RIOT_KEY}`);
 
         //get match data from each match id 
         //note when '{}' is used here the return needs to be explicit
@@ -35,7 +35,7 @@ export async function getPlayerHistory(summonerName){
         //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
         // ));
         let matches = await Promise.all(Object.values(matchIds).map(matchId => {
-            return getData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`);
+            return getData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_KEY}`);
         }))
         .catch(err => console.log(err));
 

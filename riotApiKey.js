@@ -1,1 +1,0 @@
-export const apiCallKey = process.env.RIOT_KEY;
