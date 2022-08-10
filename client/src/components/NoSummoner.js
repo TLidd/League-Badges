@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import usePostFetch from "./usePostFetch";
 import {Navigate} from "react-router-dom";
-import "../Stylesheets/NoSummoner.css";
+
+import "../Stylesheets/NoSummoner.css"
 
 // check if summoner exists if not display does not exist
 const NoSummoner = ({summonerName}) => {
@@ -27,7 +28,7 @@ const NoSummoner = ({summonerName}) => {
     return (
         <div>
             {!summonerExists && 
-            <div className="noSummoner">
+            <div className="noSummonerExists">
                 {`${summonerName.user} does not exist`}
             </div>
             }
