@@ -5,6 +5,10 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as path from 'path';
 import cors from 'cors';
+import dotenv from "dotenv";
+
+dotenv.config();
+console.log(process.env);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
