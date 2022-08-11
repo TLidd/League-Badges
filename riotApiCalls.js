@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
-import {apiCallKey} from "./riotApiKey.js"
-import leaguePlayer from "./leaguePlayer.js"
-import { json } from 'express';
+import leaguePlayer from "./leagueClasses/leaguePlayer.js"
 
 export async function getSummoner(summonerName){
     let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
@@ -40,14 +38,6 @@ export async function getPlayerHistory(summonerName){
         .catch(err => console.log(err));
 
         let player = new leaguePlayer(summonerInfo.name, matches);
-
-        try{
-            player.processData();
-        }
-        catch(error){
-            console.error("Error Received getPlayerHistory: " + error);
-        }
-
         return player.getPlayerData();
     }
 }
