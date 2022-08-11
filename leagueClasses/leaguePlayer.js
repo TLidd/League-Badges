@@ -47,10 +47,11 @@ class leaguePlayer{
                         this.playerData.champions[champion] = new championHistory(champion);
                     }
 
-                    this.playerData.champions[champion].processMatchData(match);
+                    this.playerData.champions[champion].processChampData(match);
                 }
             }
         })
+        this.createChampionData();
         this.createPlayerData();
     }
 
@@ -85,6 +86,12 @@ class leaguePlayer{
 
         this.playerData.Role = getMainRole(this.playedRoles);
         this.playerData.badges = orderObj(this.playerData.badges);
+    }
+
+    createChampionData(){
+        Object.values(this.playerData.champions).map(champion => {
+            champion.createChampionBadges();
+        })
     }
 
     getPlayerData(){

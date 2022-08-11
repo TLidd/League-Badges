@@ -1,4 +1,4 @@
-import { getMainRole, orderObj, createBadgeList } from "./leagueDataFunctions.js";
+import { getMainRole, orderObj, createBadgeList, createFBBadge } from "./leagueDataFunctions.js";
 
 export default class championHistory{
 
@@ -6,6 +6,7 @@ export default class championHistory{
         champName: "",
         Role: "",
         badges: {},
+        gamesPlayed: 0,
     }
 
     constructor(name){
@@ -25,7 +26,6 @@ export default class championHistory{
         wardsKilled: 0,
         goldEarned: 0,
         wins: 0,
-        gamesPlayed: 0,
     }
 
     #badgePoints = {
@@ -46,7 +46,7 @@ export default class championHistory{
         "UTILITY" : 0,
     }
 
-    processMatchData(match){
+    processChampData(match){
         let players = match.info.participants;
 
         let champInfo = this.getChampGameInfo(players);
@@ -69,7 +69,7 @@ export default class championHistory{
         })
 
         this.#playedRoles[champInfo.teamPosition] += 1;
-        this.#matchTotals.gamesPlayed += 1;
+        this.champData.gamesPlayed += 1;
     }
 
     getChampGameInfo(participants){
@@ -106,13 +106,11 @@ export default class championHistory{
         }
     }
 
-    getBadgesEarned(){
-        if(this.#matchTotals.gamesPlayed > 0){
-            this.champData.badges = createBadgeList(this.#badgePoints, this.#matchTotals.gamesPlayed);
-            this.champData.badges.firstBloods = createFBBadge(this.#matchTotals.firstBloods, gamesPlayed);
-
+    createChampionBadges(){
+        if(this.champData.gamesPlayed > 0){
+            this.champData.badges = createBadgeList(this.#badgePoints, this.champData.gamesPlayed);
+            this.champData.badges.firstBloods = createFBBadge(this.#matchTotals.firstBloods, this.champData.gamesPlayed);
             this.champData.Role = getMainRole(this.#playedRoles);
-
             this.champData.badges = orderObj(this.champData.badges);
         }
     }
