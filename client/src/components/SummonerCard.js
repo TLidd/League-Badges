@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import "../Stylesheets/SummonerCard.css"
+import { badgeDescriptions } from "./badgeDescriptions";
 
 const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
   let {name} = useParams();
@@ -7,17 +8,6 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
   let summonerName = sumName;
   if(sumName === undefined){
     summonerName = name;
-  }
-
-  let badgeDescriptions = {
-    Warder: "Vision Score:",
-    TowerDestroyer: "Turret Damage:",
-    CreepKiller: "Creep Score:",
-    DamageDealt: "Damage dealt to champions:",
-    DamageTaken: "Damage taken:",
-    WardsDestroyed: "Wards destroyed:",
-    GoldEarned: "Gold earned:",
-    FirstBloods: "First Bloods in game:",
   }
 
   let badgeLevel = ["Good", "Great", "Excellent"];
@@ -45,7 +35,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
                   {
                       Object.keys(sumBadges).map((badge) => {
                         return <div title={`${badgeDescriptions[badge]} ${badgeLevel[sumBadges[badge]]}`} className={`${badgeLevel[sumBadges[badge]]} badge`} key={`${badge}`}>
-                                    <img src={require(`../assets/${badge}.png`)} alt=""/>
+                                    <img src={require(`../assets/badgeIcons/${badge}.png`)} alt=""/>
                                 </div>
                       })
                   }

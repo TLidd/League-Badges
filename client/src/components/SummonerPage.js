@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import {useQuery} from "@tanstack/react-query"
 import "../Stylesheets/SummonerPage.css"
 import "../Stylesheets/Badge.css"
+import { badgeDescriptions } from "./badgeDescriptions"
 
 const fetchPlayerData = async (name) => {
     const res = await fetch(`/summonerData/${name}`);
@@ -17,17 +18,6 @@ const SummonerPage = () => {
         ['summonerBadgeData', name.toLowerCase()],
         () => fetchPlayerData(name),
     );
-
-    let badgeDescriptions = {
-      Warder: "Vision Score:",
-      TowerDestroyer: "Turret Damage:",
-      CreepKiller: "Creep Score:",
-      DamageDealt: "Damage dealt to champions:",
-      DamageTaken: "Damage taken:",
-      WardsDestroyed: "Wards destroyed:",
-      GoldEarned: "Gold earned:",
-      FirstBloods: "First Bloods in game:",
-    }
   
     let badgeLevel = ["Good", "Great", "Excellent"];
 
