@@ -13,6 +13,11 @@ export default class championHistory{
         this.champData.champName = name;
     }
 
+    #matchGamesData = {
+        totalTeamKills: 0,
+        totalTime: 0,
+    }
+
     #matchTotals = {
         kills: 0,
         deaths: 0,
@@ -51,6 +56,11 @@ export default class championHistory{
 
         let champInfo = this.getChampGameInfo(players);
 
+        let teamId = champInfo.teamId;
+        this.#matchGamesData.totalTeamKills += this.getTeamKills(match.info.participants, teamId);
+
+        this.#matchGamesData.totalTime += match.info.gameDuration;
+
         Object.keys(this.#matchTotals).map(key => {
             if(key == 'wins'){
                 this.#matchTotals[key] += champInfo[key] == true ? 1 : 0;
@@ -74,6 +84,16 @@ export default class championHistory{
 
     getChampGameInfo(participants){
         return participants.find(participant => participant.championName == this.champData.champName);
+    }
+
+    getTeamKills(participants, teamId){
+        let kills = 0;
+        Object.values(participants).map(participant => {
+            if(participant.teamId == teamId){
+                kills += participant.kills;
+            }
+        })
+        return kills;
     }
 
     getBadgePoints(participants, key){
@@ -120,5 +140,15 @@ export default class championHistory{
         badgeData.firstBloods = this.#matchTotals.firstBloods;
         badgeData.wins = this.#matchTotals.wins;
         return badgeData;
+    }
+
+    createChampStats(){
+        let champStats = {}
+        if(this.#matchTotals.kills + this.#matchTotals.assists != 0 || this.#matchGamesData.totalTeamKills != 0){
+            champStats.killParticipation = (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
+        }
+        champStats.goldPerMinute = (this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60;
+
+        this.champData.champStats = champStats;
     }
 }

@@ -91,6 +91,7 @@ class leaguePlayer{
     createChampionData(){
         Object.values(this.playerData.champions).map(champion => {
             champion.createChampionBadges();
+            champion.createChampStats();
         })
     }
 
