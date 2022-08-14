@@ -86,6 +86,7 @@ class leaguePlayer{
 
         this.playerData.Role = getMainRole(this.playedRoles);
         this.playerData.badges = orderObj(this.playerData.badges);
+        this.playerData.champions = this.orderChamps();
     }
 
     createChampionData(){
@@ -97,6 +98,10 @@ class leaguePlayer{
 
     getPlayerData(){
         return this.playerData;
+    }
+
+    orderChamps(){
+        return Object.entries(this.playerData.champions).sort(([,a], [,b]) => b.champData.gamesPlayed - a.champData.gamesPlayed).reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     }
 
     printData(){
