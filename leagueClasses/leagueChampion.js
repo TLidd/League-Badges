@@ -146,10 +146,10 @@ export default class championHistory{
         let champStats = {}
 
         if(this.#matchTotals.kills + this.#matchTotals.assists != 0 || this.#matchGamesData.totalTeamKills != 0){
-            champStats.killParticipation = (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
+            champStats["Kill Participation"]= (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
         }
-        champStats.goldPerMinute = ((this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60).toFixed(0);
-        champStats.visionScore = (this.#matchTotals.visionScore / this.champData.gamesPlayed).toFixed(0);
+        champStats["Gold Earned"] = ((this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60).toFixed(0);
+        champStats["Vision Score"] = (this.#matchTotals.visionScore / this.champData.gamesPlayed).toFixed(0);
 
         this.champData.champStats = champStats;
     }

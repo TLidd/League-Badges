@@ -3,6 +3,7 @@ import {useQuery} from "@tanstack/react-query"
 import "../Stylesheets/SummonerPage.css"
 import "../Stylesheets/Badge.css"
 import { badgeDescriptions } from "./badgeDescriptions"
+import ChampionChart from "./ChampionChart"
 
 const fetchPlayerData = async (name) => {
     const res = await fetch(`/summonerData/${name}`);
@@ -10,20 +11,20 @@ const fetchPlayerData = async (name) => {
 }
 
 const SummonerPage = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    let {name} = useParams();
+  let {name} = useParams();
 
-    const {data, isLoading} = useQuery(
-        ['summonerBadgeData', name.toLowerCase()],
-        () => fetchPlayerData(name),
-    );
-  
-    let badgeLevel = ["Good", "Great", "Excellent"];
+  const {data, isLoading} = useQuery(
+      ['summonerBadgeData', name.toLowerCase()],
+      () => fetchPlayerData(name),
+  );
 
-    if(isLoading){
-      return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
-    }
+  let badgeLevel = ["Good", "Great", "Excellent"];
+
+  if(isLoading){
+    return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
+  }
 
   return (
     <div>
@@ -49,6 +50,9 @@ const SummonerPage = () => {
               }
               <button onClick={() => navigate(`./ActiveGame`)}>Back to active game</button>
             </div>
+          }
+          {
+            data && <ChampionChart data={data}/>
           }
         </div>
       }

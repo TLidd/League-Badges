@@ -38,7 +38,6 @@ export async function getPlayerHistory(summonerName){
         .catch(err => console.log(err));
 
         let player = new leaguePlayer(summonerInfo.name, matches);
-        player.printData();
         return player.getPlayerData();
     }
 }
