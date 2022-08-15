@@ -50,7 +50,7 @@ const SummonerPage = () => {
                   }
                 </div>
               }
-              <button onClick={() => navigate(`./ActiveGame`)}>Back to active game</button>
+              <button className="activeGameButton" onClick={() => navigate(`./ActiveGame`)}>Active Game</button>
             </div>
           }
           {
