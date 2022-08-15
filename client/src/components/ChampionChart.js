@@ -10,6 +10,7 @@ const ChampionChart = ({data}) => {
     //creating a state variable to create a custom legend that hides/unhides the data by clicking on champion icon
     const [shownChampions, setShownChampions] = useState([]);
 
+    //the amount of champions to show on the graph from most played to least played
     let champsToShow = 3;
     const [graphColors] = useState(getRandomColors(champsToShow));
 
@@ -48,6 +49,7 @@ const ChampionChart = ({data}) => {
         },
     });
 
+    //set the champions to shown after data comes in for the custom legend
     useEffect(() => {
         if(data?.SummonerName){
             let showChamps = Object.values(data.champions).slice(0,champsToShow).map(champ => {
@@ -57,6 +59,7 @@ const ChampionChart = ({data}) => {
         }
     }, [data, champsToShow])
 
+    //set the graph data with the object data 
     useEffect(() => {
         console.log(shownChampions);
         if(data?.SummonerName){
@@ -82,6 +85,7 @@ const ChampionChart = ({data}) => {
         }
       }, [data, shownChampions, champsToShow, graphColors])
 
+      //custom legend to display/hide dataset of champion clicked
       let championClicked = (e) => {
         let newChampsShow = [...shownChampions];
         if(shownChampions.includes(e.target.name)){
@@ -115,6 +119,7 @@ const ChampionChart = ({data}) => {
     )
 }
 
+//get x random colors in the available range with a transparency
 const getRandomColors = (count) => {
     let availableColors = ['#ff03b3', '#03ff96', '#ffa703', '#00FFFF'];
     let transparencyValues = ['4D', '80', 'CC'];

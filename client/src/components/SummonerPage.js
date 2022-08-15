@@ -38,6 +38,7 @@ const SummonerPage = () => {
             <div>
               {
                 <div className="badgeBar">
+                  {/* create a bar with all the badges the user has */}
                   {
                     Object.keys(data?.badges).length > 0  ?
                     Object.keys(data?.badges).map((badge) => {
