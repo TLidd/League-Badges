@@ -21,7 +21,7 @@ const ChampionChart = ({data}) => {
             max: 100,
             ticks: {
                 display: false, // Hides the labels in the middle (numbers)
-                stepSize: 20,
+                stepSize: 25,
             },
             grid: {
                 color: 'aqua',
@@ -50,13 +50,12 @@ const ChampionChart = ({data}) => {
 
     useEffect(() => {
         if(data?.SummonerName){
-            let showChamps = [];
-            Object.values(data.champions).slice(0,champsToShow).map(champ => {
-                showChamps.push(champ.champData.champName);
+            let showChamps = Object.values(data.champions).slice(0,champsToShow).map(champ => {
+                return champ.champData.champName;
             })
             setShownChampions(showChamps);
         }
-    }, [data])
+    }, [data, champsToShow])
 
     useEffect(() => {
         console.log(shownChampions);
@@ -71,6 +70,9 @@ const ChampionChart = ({data}) => {
                         backgroundColor: graphColors[index],
                         borderWidth: 2,
                         hidden: shownChampions.includes(champ.champData.champName) ? false : true,
+                        pointStyle: 'rectRounded',
+                        pointRadius: 5,
+                        pointBackgroundColor: graphColors[index].slice(0,7),
                     }
 
                     index++;
@@ -78,7 +80,7 @@ const ChampionChart = ({data}) => {
                 })
             })
         }
-      }, [data, shownChampions])
+      }, [data, shownChampions, champsToShow, graphColors])
 
       let championClicked = (e) => {
         let newChampsShow = [...shownChampions];
@@ -93,7 +95,7 @@ const ChampionChart = ({data}) => {
       }
 
     return (
-        <>
+        <div className='chartContainer'>
             {
             userData && 
             <div className='championChart'> <RadarChart chartData={userData} options={chartOptions} /> </div>
@@ -102,23 +104,24 @@ const ChampionChart = ({data}) => {
                 {
                     Object.values(data.champions).slice(0,champsToShow).map((champ, index) => {
                         return <img className='championIcon' key={champ.champData.champName} 
-                        style={{border: shownChampions.includes(champ.champData.champName) ? '4px solid ' + graphColors[index] : '4px solid #FFFFFF00'}} 
+                        style={{border: shownChampions.includes(champ.champData.champName) ? '4px solid ' + graphColors[index].slice(0,7) : '4px solid #FFFFFF00'}} 
                         src={require(`../assets/tiles/${champ.champData.champName}_0.jpg`)}
                         name={champ.champData.champName} alt={champ.champData.champName}
                         onClick={championClicked}/>
                     })
                 }
             </div>
-        </>
+        </div>
     )
 }
 
 const getRandomColors = (count) => {
-    let availableColors = ['red', 'yellow', 'purple', '#00FFFF'];
+    let availableColors = ['#ff03b3', '#03ff96', '#ffa703', '#00FFFF'];
+    let transparencyValues = ['4D', '80', 'CC'];
     let colors = [];
     for(let i = 0; i < count; i++){
         let color = randomColor({hue: availableColors[i], luminosity: 'dark'});
-        colors.push(color.concat('99'));
+        colors.push(color.concat(transparencyValues[i]));
     }
     return colors;
 }

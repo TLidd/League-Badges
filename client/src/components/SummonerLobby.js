@@ -47,7 +47,6 @@ const SummonerLobby = () => {
 
     let team1 = [];
     let team2 = [];
-    console.log(lobby);
     if(loading && !lobby.error){
         return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
     }

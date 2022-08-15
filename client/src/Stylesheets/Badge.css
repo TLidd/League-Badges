@@ -14,3 +14,8 @@
     object-fit: contain;
     display: block;
 }
+
+.emptyBadges{
+    width: 4%;
+    aspect-ratio: 1 / 1;
+}

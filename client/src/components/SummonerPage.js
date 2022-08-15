@@ -37,14 +37,16 @@ const SummonerPage = () => {
           {
             <div>
               {
-                Object.keys(data?.badges).length > 0 &&
                 <div className="badgeBar">
                   {
-                    Object.keys(data.badges).map((badge) => {
+                    Object.keys(data?.badges).length > 0  ?
+                    Object.keys(data?.badges).map((badge) => {
                       return  <div title={`${badgeDescriptions[badge]} ${badgeLevel[data.badges[badge]]}`} className={`${badgeLevel[data.badges[badge]]} badgeBarBadge`} key={`${badge}`}>
                                 <img src={require(`../assets/badgeIcons/${badge}.png`)} alt=""/>
                               </div>
                     })
+                    :
+                    <div className="emptyBadges"/>
                   }
                 </div>
               }
