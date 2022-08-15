@@ -146,10 +146,35 @@ export default class championHistory{
         let champStats = {}
 
         if(this.#matchTotals.kills + this.#matchTotals.assists != 0 || this.#matchGamesData.totalTeamKills != 0){
-            champStats["Kill Participation"]= (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
+            champStats["Kill Participation"] = (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
         }
-        champStats["Gold Earned"] = ((this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60).toFixed(0);
-        champStats["Vision Score"] = (this.#matchTotals.visionScore / this.champData.gamesPlayed).toFixed(0);
+
+        let goldPercent;
+        let goldPerMin = ((this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60).toFixed(0); 
+        if(goldPerMin < 275){
+            goldPercent = 0
+        }
+        else if(goldPerMin > 410){
+            goldPercent = 100
+        }
+        else{
+            goldPercent = (((goldPerMin - 275)/(410-275)) * 100).toFixed(0);
+        }
+        champStats["Gold Earned"] = goldPercent;
+
+        let visionPercent;
+        let visionPerMin = ((this.#matchTotals.visionScore / this.#matchGamesData.totalTime) * 60).toFixed(3);
+        if(visionPerMin > 1.5){
+            visionPercent = 100;
+        }
+        else if(visionPerMin < 0.25){
+            visionPercent = 0
+        }
+        else{
+            visionPercent = (((visionPerMin - 0)/(1.5-0.25)) * 100).toFixed(0);
+            console.log(visionPercent);
+        }
+        champStats["Vision Score"] = visionPercent;
 
         this.champData.champStats = champStats;
     }
