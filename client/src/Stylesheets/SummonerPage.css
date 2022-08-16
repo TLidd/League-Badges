@@ -4,6 +4,10 @@
     color: #bf8600;
     display: inline-block;
     padding: 1%;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
 }
 
 .badgeBar{
