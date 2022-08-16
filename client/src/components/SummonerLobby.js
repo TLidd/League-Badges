@@ -15,7 +15,8 @@ const SummonerLobby = () => {
     let {name} = useParams();
 
     let [loading, setLoading] = useState(true);
-
+    
+    //get the lobby list of names to process the queries of each champion to cache.
     let lobby = useGetFetch(`/getLobbyList/${name}`);
 
     let gameParticipants = null;

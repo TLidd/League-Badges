@@ -61,7 +61,6 @@ const ChampionChart = ({data}) => {
 
     //set the graph data with the object data 
     useEffect(() => {
-        console.log(shownChampions);
         if(data?.SummonerName){
             setUserData({
                 labels: Object.keys(Object.values(data.champions)[0].champData.champStats),

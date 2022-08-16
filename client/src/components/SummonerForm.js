@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {Navigate} from "react-router-dom"
 import "../Stylesheets/SummonerForm.css"
-import NoSummoner from "./NoSummoner";
+import CheckSummoner from "./CheckSummoner";
 import usePostFetch from "./usePostFetch";
 
 const SummonerForm = () => {
@@ -36,7 +36,8 @@ const SummonerForm = () => {
             </form>
             {isPending && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
             {data && data?.gameId && !isPending && <Navigate to={`./${formName.user}/ActiveGame`} />}
-            {data && !data?.gameId && !isPending && <NoSummoner summonerName={formName}/>}
+            {/* if summoner doesn't exist or not in game CheckSummoner */}
+            {data && !data?.gameId && !isPending && <CheckSummoner formName={formName.user} data={data}/>}
         </div>
     )
 }

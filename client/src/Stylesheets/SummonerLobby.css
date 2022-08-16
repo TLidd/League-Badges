@@ -32,10 +32,8 @@
 
 .blue-team{
     color: rgb(0, 160, 160);
-    border: 2px solid rgb(0, 160, 160);
 }
 
 .red-team{
     color: rgb(157, 0, 0);
-    border: 2px solid rgb(157, 0, 0);
 }

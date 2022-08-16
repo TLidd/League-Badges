@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import usePostFetch from "./usePostFetch";
 import {Navigate} from "react-router-dom";
 
 import "../Stylesheets/NoSummoner.css"
 
 // check if summoner exists if not display does not exist
-const NoSummoner = ({summonerName}) => {
+const NoSummoner = ({formName, data}) => {
     let [summonerExists, setExists] = useState(true);
 
-    const {data} = usePostFetch("/getSummoner", summonerName);
-
+    //sets timer to display a does not exist message for 10 seconds
     useEffect(() => {
         let timeEvent;
         if(data !== null){
-            if(data?.name === undefined){
+            if(!data?.summonerName){
                 setExists(false);
                 timeEvent = setTimeout(() => {
                     setExists(true);
@@ -30,11 +28,11 @@ const NoSummoner = ({summonerName}) => {
             {
                 !summonerExists && 
                 <div className="noSummonerExists">
-                    {`${summonerName.user} does not exist`}
+                    {`${formName} does not exist`}
                 </div>
             }
 
-            {summonerExists && data?.name && <Navigate to={`/${data?.name}`} />}   
+            {summonerExists && data?.summonerName && <Navigate to={`/${data?.summonerName}`} />}   
         </div>
     )
 }

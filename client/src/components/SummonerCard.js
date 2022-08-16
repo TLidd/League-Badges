@@ -12,6 +12,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
 
   let badgeLevel = ["Good", "Great", "Excellent"];
 
+  //get the searched name and highlight it by taking the route parameter and matching it to the name passed into this component.
   let nameMatch = name.toUpperCase() === summonerName.toUpperCase();
   let highlight = nameMatch ? "highlightSummoner" : "lobbyParticipant";
 
