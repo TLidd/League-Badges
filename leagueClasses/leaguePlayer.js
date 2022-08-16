@@ -11,7 +11,7 @@ class leaguePlayer{
         this.matchHistory = matchHistory;
         this.playerData.SummonerName = name;
         this.gamesPlayed = matchHistory.length;
-        this.processMatches();
+        this.#processMatches();
     }
 
     playedRoles = {
@@ -34,11 +34,11 @@ class leaguePlayer{
     }
 
     //process the data by getting the different badges to describe the player (ranked games only)
-    processMatches(){
+    #processMatches(){
         this.matchHistory.map(match => {
             if(match.hasOwnProperty('info')){
                 if(match?.info?.participants){
-                    let player = this.getPlayerMatchStats(match.info.participants);
+                    let player = this.#getPlayerMatchStats(match.info.participants);
                     this.playedRoles[player.teamPosition] += 1;
 
                     let champion = player.championName;
@@ -51,18 +51,21 @@ class leaguePlayer{
                 }
             }
         })
-        this.createChampionData();
-        this.createPlayerData();
+        //after all matches processed create the data for the champions and players
+        this.#createChampionData();
+        this.#createPlayerData();
     }
 
-    getPlayerMatchStats(players){
+    //get the data of the player from the player's match
+    #getPlayerMatchStats(players){
         let playerStats = players.find(player => {
             if(player.summonerName == this.name) return player;
         })
         return playerStats;
     }
 
-    createPlayerData(){
+    // fill the PlayerData object with the champion stats/badges and create overall badges for the player
+    #createPlayerData(){
         let data = null;
         Object.values(this.playerData.champions).map(champion => {
             let championBadgeData = champion.getChampionBadgeData();
@@ -86,10 +89,11 @@ class leaguePlayer{
 
         this.playerData.Role = getMainRole(this.playedRoles);
         this.playerData.badges = orderObj(this.playerData.badges);
-        this.playerData.champions = this.orderChamps();
+        this.playerData.champions = this.#orderChamps();
     }
 
-    createChampionData(){
+    //create the badges and stats of the champions played
+    #createChampionData(){
         Object.values(this.playerData.champions).map(champion => {
             champion.createChampionBadges();
             champion.createChampStats();
@@ -100,7 +104,7 @@ class leaguePlayer{
         return this.playerData;
     }
 
-    orderChamps(){
+    #orderChamps(){
         return Object.entries(this.playerData.champions).sort(([,a], [,b]) => b.champData.gamesPlayed - a.champData.gamesPlayed).reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     }
 

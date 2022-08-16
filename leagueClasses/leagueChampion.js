@@ -142,6 +142,7 @@ export default class championHistory{
         return badgeData;
     }
 
+    //create the stats that will be graphed onto the chart
     createChampStats(){
         let champStats = {}
 
@@ -149,6 +150,7 @@ export default class championHistory{
             champStats["Kill Participation"] = (((this.#matchTotals.kills + this.#matchTotals.assists) / this.#matchGamesData.totalTeamKills)*100).toFixed(0);
         }
 
+        //goldPercent based off of the stats of bronze on the low end and challenger on the high end
         let goldPercent;
         let goldPerMin = ((this.#matchTotals.goldEarned / this.#matchGamesData.totalTime) * 60).toFixed(0); 
         if(goldPerMin < 275){
@@ -162,6 +164,7 @@ export default class championHistory{
         }
         champStats["Gold Earned"] = goldPercent;
 
+        //visionPercent based off of the stats of bronze on the low end and challenger on the high end
         let visionPercent;
         let visionPerMin = ((this.#matchTotals.visionScore / this.#matchGamesData.totalTime) * 60).toFixed(3);
         if(visionPerMin >= 1.5){

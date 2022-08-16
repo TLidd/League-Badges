@@ -1,6 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import { getCurrentGame, getLobbyData, getPlayerHistory, getSummoner, getLobbyNames } from './riotApiCalls.js';
+import { getCurrentGame, getLobbyData, getPlayerHistory, getLobbyNames } from './riotApiCalls.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as path from 'path';
@@ -22,31 +22,12 @@ app.use(corsVal);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.post('/getSummoner', (req, res) =>{
-  let sumName = req.body['user'];
-  getSummoner(sumName).then(data => res.json(data));
-});
-
-app.post('/summonerGame', (req, res) => {
-  let sumName = req.body['user'];
+app.get('/summonerGame/:name', (req, res) => {
+  let sumName = req.params.name;
   getCurrentGame(sumName).then(data => {
     res.json(data);
   });
 });
-
-app.post('/summonerHistory', (req, res) => {
-  let sumName = req.body['user'];
-  getPlayerHistory(sumName).then(data => {
-    res.json({player: data});
-  })
-});
-
-app.post('/summonerLobby', (req, res) => {
-  let sumName = req.body['user'];
-  getLobbyData(sumName).then(data => {
-    res.json(data);
-  });
-})
 
 app.get('/summonerData/:name', (req, res) => {
   let sumName = req.params.name;
