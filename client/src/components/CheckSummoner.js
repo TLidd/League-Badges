@@ -10,7 +10,7 @@ const NoSummoner = ({formName, data}) => {
     //sets timer to display a does not exist message for 10 seconds
     useEffect(() => {
         let timeEvent;
-        if(data !== null && formName.length >= 3){
+        if(data !== null){
             if(!data?.summonerName){
                 setExists(false);
                 timeEvent = setTimeout(() => {

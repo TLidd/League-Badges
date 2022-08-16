@@ -35,10 +35,10 @@ const SummonerForm = () => {
                     <input className="button" type="submit" value="Find Summoner"></input>
                 </div>
             </form>
-            {isPending && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
+            {isPending && formName.length >= 3 && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
             {data && data?.gameId && !isPending && <Navigate to={`./${formName}/ActiveGame`} />}
             {/* if summoner doesn't exist or not in game CheckSummoner */}
-            {error && formName && !isPending && <CheckSummoner formName={formName} data={error}/>}
+            {error && formName.length >= 3 && !isPending && <CheckSummoner formName={formName} data={error}/>}
         </div>
     )
 }
