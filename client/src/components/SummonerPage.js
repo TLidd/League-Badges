@@ -51,9 +51,11 @@ const SummonerPage = () => {
                   }
                 </div>
               }
-              <button className="activeGameButton" onClick={() => navigate(`./ActiveGame`)}>Active Game</button>
             </div>
           }
+          <div>
+            <button className="activeGameButton" onClick={() => navigate(`./ActiveGame`)}>Active Game</button>
+          </div>
           {
             data && <ChampionChart data={data}/>
           }
