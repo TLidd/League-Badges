@@ -61,7 +61,7 @@ export default class championHistory{
 
         this.#matchGamesData.totalTime += match.info.gameDuration;
 
-        Object.keys(this.#matchTotals).map(key => {
+        for(const key of Object.keys(this.#matchTotals)){
             if(key == 'wins'){
                 this.#matchTotals[key] += champInfo[key] == true ? 1 : 0;
             }
@@ -72,11 +72,11 @@ export default class championHistory{
             else{
                 this.#matchTotals[key] += champInfo[key];
             }
-        })
+        }
 
-        Object.keys(this.#badgePoints).map(key => {
+        for(const key of Object.keys(this.#badgePoints)){
             this.#badgePoints[key] += this.getBadgePoints(players, key);
-        })
+        }
 
         this.#playedRoles[champInfo.teamPosition] += 1;
         this.champData.gamesPlayed += 1;
@@ -88,11 +88,11 @@ export default class championHistory{
 
     getTeamKills(participants, teamId){
         let kills = 0;
-        Object.values(participants).map(participant => {
+        for(const participant of Object.values(participants)){
             if(participant.teamId == teamId){
                 kills += participant.kills;
             }
-        })
+        }
         return kills;
     }
 

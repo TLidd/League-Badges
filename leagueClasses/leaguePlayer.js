@@ -5,9 +5,11 @@ class leaguePlayer{
     name = null;
     matchHistory = null;
     gamesPlayed = null;
+    puuid = null;
 
-    constructor(name, matchHistory){
+    constructor(name, puuid, matchHistory){
         this.name = name;
+        this.puuid = puuid;
         this.matchHistory = matchHistory;
         this.playerData.SummonerName = name;
         this.gamesPlayed = matchHistory.length;
@@ -35,7 +37,7 @@ class leaguePlayer{
 
     //process the data by getting the different badges to describe the player (ranked games only)
     #processMatches(){
-        this.matchHistory.map(match => {
+        for(const match of this.matchHistory){
             if(match.hasOwnProperty('info')){
                 if(match?.info?.participants){
                     let player = this.#getPlayerMatchStats(match.info.participants);
@@ -50,7 +52,7 @@ class leaguePlayer{
                     this.playerData.champions[champion].processChampData(match);
                 }
             }
-        })
+        }
         //after all matches processed create the data for the champions and players
         this.#createChampionData();
         this.#createPlayerData();
@@ -59,25 +61,25 @@ class leaguePlayer{
     //get the data of the player from the player's match
     #getPlayerMatchStats(players){
         let playerStats = players.find(player => {
-            if(player.summonerName == this.name) return player;
-        })
+            if(player.puuid == this.puuid) return player;
+        });
         return playerStats;
     }
 
     // fill the PlayerData object with the champion stats/badges and create overall badges for the player
     #createPlayerData(){
         let data = null;
-        Object.values(this.playerData.champions).map(champion => {
+        for(const champion of Object.values(this.playerData.champions)){
             let championBadgeData = champion.getChampionBadgeData();
             if(data === null){
                 data = championBadgeData;
             }
             else{
-                Object.keys(data).map(key => {
+                for(const key of Object.keys(data)){
                     data[key] += championBadgeData[key];
-                })
+                }
             }
-        })
+        }
         if(data){
             this.playerData.badges = createBadgeList(data, this.gamesPlayed);
 
@@ -94,10 +96,10 @@ class leaguePlayer{
 
     //create the badges and stats of the champions played
     #createChampionData(){
-        Object.values(this.playerData.champions).map(champion => {
+        for(const champion of Object.values(this.playerData.champions)){
             champion.createChampionBadges();
             champion.createChampStats();
-        })
+        }
     }
 
     getPlayerData(){

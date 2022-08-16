@@ -1,6 +1,6 @@
 export let badgeDescriptions = {
     visionScore: "Vision Score:",
-    damageDealtToTowers: "Turret Damage:",
+    damageDealtToTurrets: "Turret Damage:",
     totalMinionsKilled: "Creep Score:",
     totalDamageDealtToChampions: "Damage dealt to champions:",
     totalDamageTaken: "Damage taken:",

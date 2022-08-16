@@ -13,12 +13,12 @@ export function createBadge(badgePoints, gamesPlayed){
 
 export function createBadgeList(badgeData, gamesPlayed){
     let badges = {};
-    Object.keys(badgeData).map(key => {
+    for(const key of Object.keys(badgeData)){
         let badgeLevel = createBadge(badgeData[key], gamesPlayed);
         if(badgeLevel !== undefined){
             badges[key] = badgeLevel;
         }
-    })
+    }
     return badges;
 }
 
