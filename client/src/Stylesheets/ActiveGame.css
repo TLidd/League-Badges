@@ -16,5 +16,6 @@
 }
 
 .center{
+    display: inline-block;
     margin-top: 15%;
 }

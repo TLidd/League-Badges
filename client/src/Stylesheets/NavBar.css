@@ -2,13 +2,14 @@
     width: 10%;
     margin-left: auto;
     margin-right: auto;
-    position: sticky;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
 }
 
 .NavContainer .link{
     display: inline-block;
     width: 100%;
-    position: relative;
 
     color: #bf8600;
     text-decoration: none;
