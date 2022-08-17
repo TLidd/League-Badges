@@ -4,6 +4,7 @@ import "../Stylesheets/SummonerPage.css"
 import "../Stylesheets/Badge.css"
 import { badgeDescriptions } from "./badgeDescriptions"
 import ChampionChart from "./ChampionChart"
+import NavBar from "./NavBar"
 
 const fetchPlayerData = async (name) => {
     const res = await fetch(`/summonerData/${name}`);
@@ -28,6 +29,7 @@ const SummonerPage = () => {
 
   return (
     <div>
+      <NavBar/>
       { 
         data &&
         <div>

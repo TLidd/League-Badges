@@ -5,6 +5,7 @@ import SummonerCard from "./SummonerCard"
 import "../Stylesheets/SummonerLobby.css"
 import useGetFetch from "./useGetFetch";
 import ActiveGame from "./ActiveGame";
+import NavBar from "./NavBar";
 
 const fetchPlayerData = async (name) => {
     const res = await fetch(`/summonerData/${name}`);
@@ -59,10 +60,11 @@ const SummonerLobby = () => {
     }
 
   return (
-    <div style={{width:"100%"}}>
+    <div style={{height: "100vh"}}>
+        <NavBar/>
         {
             team1.length !== 0 && team2.length !== 0 &&
-            <div>
+            <div className="lobby">
                 <div className="team">
                     <div className="team-title blue-team">Blue Team</div>
                     <div className="flexbox-container">
