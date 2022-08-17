@@ -60,34 +60,29 @@ const SummonerLobby = () => {
     }
 
   return (
-    <div style={{height: "100vh"}}>
+    <div style={{height: "100%"}}>
         <NavBar/>
         {
             team1.length !== 0 && team2.length !== 0 &&
             <div className="lobby">
-                <div className="team">
-                    <div className="team-title blue-team">Blue Team</div>
-                    <div className="flexbox-container">
-                        {
-                        team1.map(player => {
-                            return  <div className="flexbox-item" key={player.data.SummonerName}>
-                                        <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
-                                    </div>
-                        })
-                        }
-                    </div>
+                <div className="flexbox-container">
+                    {
+                    team1.map(player => {
+                        return  <div className="flexbox-item blue-team" key={player.data.SummonerName}>
+                                    <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
+                                </div>
+                    })
+                    }
                 </div>
-                <div className="team">
-                    <div className="team-title red-team">Red Team</div>
-                    <div className="flexbox-container">
-                        {
-                        team2.map(player => {
-                            return  <div className="flexbox-item" key={player.data.SummonerName}>
-                                        <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
-                                    </div>
-                        })
-                        }
-                    </div>
+                <b className="versusTag">VERSUS</b>
+                <div className="flexbox-container">
+                    {
+                    team2.map(player => {
+                        return  <div className="flexbox-item red-team" key={player.data.SummonerName}>
+                                    <SummonerCard sumName= {player.data.SummonerName} sumRole= {player.data.Role} sumBadges= {player.data.badges} activeGame= {true}/>
+                                </div>
+                    })
+                    }
                 </div>
             </div>
         

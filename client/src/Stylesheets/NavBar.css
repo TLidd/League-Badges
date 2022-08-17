@@ -16,9 +16,9 @@
     font-weight: bold;
 
     background-color: #0a2747;
-    border-left: 3px solid #04172c;
-    border-right: 3px solid #04172c;
-    border-bottom: 3px solid #031223;
+    border-left: 2px solid #bf8600;
+    border-right: 2px solid #bf8600;
+    border-bottom: 2px solid #bf8600;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     transition-duration: 0.5s;

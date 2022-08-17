@@ -27,27 +27,20 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
           summonerName
         }
       </div>
-      <div>
-        {sumRole && sumBadges && 
-          <div>
-              <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>
-              <div className="grid-container">
-                <div className="badges">
-                  {
-                      Object.keys(sumBadges).length > 0 ?
-                      Object.keys(sumBadges).map((badge) => {
-                        return <div title={`${badgeDescriptions[badge]} ${badgeLevel[sumBadges[badge]]}`} className={`${badgeLevel[sumBadges[badge]]} badge`} key={`${badge}`}>
-                                    <img src={require(`../assets/badgeIcons/${badge}.png`)} alt=""/>
-                                </div>
-                      })
-                      :
-                      <div className="emptyBadges" />
-                  }
-                </div>
-              </div>
+      {sumRole && <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>}
+      {sumBadges && 
+          <div className="grid-container">
+            <div className="badges">
+              {
+                  Object.keys(sumBadges).map((badge) => {
+                    return <div title={`${badgeDescriptions[badge]} ${badgeLevel[sumBadges[badge]]}`} className={`${badgeLevel[sumBadges[badge]]} badge`} key={`${badge}`}>
+                                <img src={require(`../assets/badgeIcons/${badge}.png`)} alt=""/>
+                            </div>
+                  })
+              }
+            </div>
           </div>
-        }
-      </div>
+      }
     </div>
   )
 }

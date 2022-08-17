@@ -1,19 +1,23 @@
 .lobby{
-    margin: auto;
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    height: 90%;
 }
 
 .flexbox-container{
+    height: 50%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .flexbox-item{
     width: 15%;
     border: 3px solid #bf8600;
     border-radius: 5%;
-    height: 375px;
-    background-color: #1a1a197c;
+    height: 90%;
+    background-color: #1a19197c;
 }
 
 .loading-gif{
@@ -22,22 +26,20 @@
     height: 10%;
 }
 
-.team{
-    margin-top: 0.5%;
-}
-
 .team-title{
-    margin-bottom: .5%;
     font-weight: bold;
-    padding: 5px;
     border-radius: 15px;
     display: inline-block;
 }
 
 .blue-team{
-    color: rgb(0, 160, 160);
+    background-color: #0715277c;
 }
 
 .red-team{
-    color: rgb(157, 0, 0);
+    background-color: #210d0d7c;
+}
+
+.versusTag{
+    color: #bf8600;
 }
