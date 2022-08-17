@@ -1,6 +1,7 @@
 .form-center{
-    padding: auto;
     padding-top: 15%;
+    padding-left: auto;
+    padding-right: auto;
 }
 
 .text{
