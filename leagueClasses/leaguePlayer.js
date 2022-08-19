@@ -38,7 +38,7 @@ class leaguePlayer{
     //process the data by getting the different badges to describe the player (ranked games only)
     #processMatches(){
         for(const match of this.matchHistory){
-            if(match.hasOwnProperty('info')){
+            if(match?.hasOwnProperty('info')){
                 if(match?.info?.participants){
                     let player = this.#getPlayerMatchStats(match.info.participants);
                     this.playedRoles[player.teamPosition] += 1;

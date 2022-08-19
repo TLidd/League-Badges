@@ -4,7 +4,6 @@ import RadarChart from "./RadarChart"
 import "../Stylesheets/ChampionChart.css"
 
 const ChampionChart = ({data}) => {
-
     const [userData, setUserData] = useState(null);
 
     //creating a state variable to create a custom legend that hides/unhides the data by clicking on champion icon
@@ -61,7 +60,7 @@ const ChampionChart = ({data}) => {
 
     //set the graph data with the object data 
     useEffect(() => {
-        if(data?.SummonerName){
+        if(data?.SummonerName && Object.keys(data?.champions).length > 0){
             setUserData({
                 labels: Object.keys(Object.values(data.champions)[0].champData.champStats),
                 datasets: Object.values(data.champions).slice(0,champsToShow).map((champ, index) => {

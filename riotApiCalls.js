@@ -20,7 +20,7 @@ export async function getPlayerHistory(summonerName){
     //get summoner puuid from name
     let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
 
-    const puuid = summonerInfo["puuid"];
+    const puuid = summonerInfo?.puuid;
 
     //get match id list from puuid
     if(puuid){
