@@ -1,5 +1,13 @@
 import fetch from 'node-fetch';
-import leaguePlayer from "./leagueClasses/leaguePlayer.js"
+import leaguePlayer from "./leagueClasses/leaguePlayer.js";
+import Bottleneck from "bottleneck";
+
+const limiter = new Bottleneck({
+    reservoir: 12, // initial value
+    reservoirRefreshAmount: 12,
+    reservoirRefreshInterval: 1250, // must be divisible by 250
+    maxConcurrent: 12,
+})
 
 export async function getSummoner(summonerName){
     let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
@@ -68,12 +76,15 @@ export async function getLobbyNames(summonerName){
 
 async function getData(url, retries = 5){
     let data;
-    let jsonObj = await fetchData(url);
+    let jsonObj = await limiter.schedule(() => {
+        return fetchData(url);
+    })
     if(jsonObj){
         data = await getJson(jsonObj);
     }
 
     if(data?.status?.status_code === 429 && retries != 0){
+        console.log(data);
         await delay(1);
         return getData(url, retries - 1);
     }else{
