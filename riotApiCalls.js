@@ -3,14 +3,24 @@ import leaguePlayer from "./leagueClasses/leaguePlayer.js";
 import Bottleneck from "bottleneck";
 
 const limiter = new Bottleneck({
-    reservoir: 12, // initial value
-    reservoirRefreshAmount: 12,
-    reservoirRefreshInterval: 1250, // must be divisible by 250
-    maxConcurrent: 12,
+    reservoir: 20, // initial value
+    reservoirRefreshAmount: 20,
+    reservoirRefreshInterval: 1500, // must be divisible by 250
+    maxConcurrent: 20,
 })
 
+// const limiter2 = new Bottleneck({
+//     reservoir: 15, // initial value
+//     reservoirRefreshAmount: 100,
+//     reservoirRefreshInterval: 1250, // must be divisible by 250
+//     maxConcurrent: 15,
+// })
+
 export async function getSummoner(summonerName){
-    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
+    let summonerInfo;
+    if(summonerName.length >= 3){
+        summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
+    }
     return summonerInfo;
 }
 
@@ -19,9 +29,11 @@ export async function getCurrentGame(summonerName){
     if(summonerInfo?.status){
         return summonerInfo;
     }
-    let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${process.env.RIOT_KEY}`);
-    data.summonerName = summonerInfo.name;
-    return data;
+    if(summonerInfo){
+        let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${process.env.RIOT_KEY}`);
+        data.summonerName = summonerInfo.name;
+        return data;
+    }
 }
 
 export async function getPlayerHistory(summonerName){
@@ -96,6 +108,7 @@ async function fetchData(url){
     let res;
     try{
         res = await fetch(url);
+        console.log(res.headers.get('X-App-Rate-Limit-Count'));
     }catch(err){
         console.error(err);
     }
