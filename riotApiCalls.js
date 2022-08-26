@@ -1,25 +1,12 @@
-import fetch from 'node-fetch';
 import leaguePlayer from "./leagueClasses/leaguePlayer.js";
-import Bottleneck from "bottleneck";
+import riotLimiter from './riotLimiter.js';
 
-const limiter = new Bottleneck({
-    reservoir: 20, // initial value
-    reservoirRefreshAmount: 20,
-    reservoirRefreshInterval: 1500, // must be divisible by 250
-    maxConcurrent: 20,
-})
-
-// const limiter2 = new Bottleneck({
-//     reservoir: 15, // initial value
-//     reservoirRefreshAmount: 100,
-//     reservoirRefreshInterval: 1250, // must be divisible by 250
-//     maxConcurrent: 15,
-// })
+let rLimiter = new riotLimiter();
 
 export async function getSummoner(summonerName){
     let summonerInfo;
     if(summonerName.length >= 3){
-        summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
+        summonerInfo = await rLimiter.getFetchData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
     }
     return summonerInfo;
 }
@@ -30,7 +17,7 @@ export async function getCurrentGame(summonerName){
         return summonerInfo;
     }
     if(summonerInfo){
-        let data = await getData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${process.env.RIOT_KEY}`);
+        let data = await rLimiter.getFetchData(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerInfo.id}?api_key=${process.env.RIOT_KEY}`);
         data.summonerName = summonerInfo.name;
         return data;
     }
@@ -38,24 +25,21 @@ export async function getCurrentGame(summonerName){
 
 export async function getPlayerHistory(summonerName){
     //get summoner puuid from name
-    let summonerInfo = await getData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
+    let summonerInfo = await rLimiter.getFetchData(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_KEY}`);
 
     const puuid = summonerInfo?.puuid;
 
     //get match id list from puuid
     if(puuid){
-        let matchIds = await getData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${process.env.RIOT_KEY}`);
+        let matchIds = await rLimiter.getFetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&count=7&api_key=${process.env.RIOT_KEY}`);
 
-        //get match data from each match id 
-        //note when '{}' is used here the return needs to be explicit
-        //the return is implicit if it is written like
-        // const matches = await Promise.all(Object.values(matchIds).map(matchId => 
-        //     fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiCallKey}`)
-        // ));
-        let matches = await Promise.all(Object.values(matchIds).map(matchId => {
-            return getData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_KEY}`);
-        }))
-        .catch(err => console.log(err));
+        let matches;
+        if(matchIds){
+            matches = await Promise.all(Object.values(matchIds).map(matchId => {
+                return rLimiter.getFetchData(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_KEY}`);
+            }))
+            .catch(err => console.log(err));
+        }
 
         let player = new leaguePlayer(summonerInfo.name, puuid, matches);
         return player.getPlayerData();
@@ -84,47 +68,4 @@ export async function getLobbyNames(summonerName){
         });
         return lobby;
     }
-}
-
-async function getData(url, retries = 5){
-    let data;
-    let jsonObj = await limiter.schedule(() => {
-        return fetchData(url);
-    })
-    if(jsonObj){
-        data = await getJson(jsonObj);
-    }
-
-    if(data?.status?.status_code === 429 && retries != 0){
-        console.log(data);
-        await delay(1);
-        return getData(url, retries - 1);
-    }else{
-        return data;
-    }
-}
-
-async function fetchData(url){
-    let res;
-    try{
-        res = await fetch(url);
-        console.log(res.headers.get('X-App-Rate-Limit-Count'));
-    }catch(err){
-        console.error(err);
-    }
-    return res;
-}
-
-async function getJson(res){
-    let jsonObj;
-    try{
-        jsonObj = await res.json();
-    }catch(err){
-        console.error(err);
-    }
-    return jsonObj; 
-}
-
-function delay(seconds){
-    return new Promise(resolve => setTimeout(resolve, seconds * 1000))
 }
