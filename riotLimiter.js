@@ -48,17 +48,16 @@ export default class riotLimiter{
             return this.getFetchData(fetchURL);
         }
 
-        // if(this.#currentFetchCalls == 1){
-        //     this.#setRateLimits(res.headers.get('X-App-Rate-Limit'));
-        // }
-
         let data;
         if(res){
             data = await res.json();
         }
-        if(data?.status){
+
+        if(data?.status?.status_code == 429){
             console.log(data);
+            return this.getFetchData(fetchURL);
         }
+
         return data;
     }
 
