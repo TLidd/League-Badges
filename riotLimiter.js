@@ -14,7 +14,7 @@ export default class riotLimiter{
     #timer;
     #timerSet = false;
 
-    limiter = new Bottleneck({
+    #limiter = new Bottleneck({
         reservoir: 20, // initial value
         reservoirRefreshAmount: 20,
         reservoirRefreshInterval: 1.25 * (1000), // must be divisible by 250
@@ -37,7 +37,7 @@ export default class riotLimiter{
             await this.#delay(this.#getTimeLeft(this.#timer));
         }
 
-        let res = await this.limiter.schedule(() => {
+        let res = await this.#limiter.schedule(() => {
             this.#currentFetchCalls += 1;
             if(this.#currentFetchCalls <= this.#limiterMaxCalls){
                 return fetch(fetchURL);
@@ -48,9 +48,9 @@ export default class riotLimiter{
             return this.getFetchData(fetchURL);
         }
 
-        if(this.#currentFetchCalls == 1){
-            this.#setRateLimits(res.headers.get('X-App-Rate-Limit'));
-        }
+        // if(this.#currentFetchCalls == 1){
+        //     this.#setRateLimits(res.headers.get('X-App-Rate-Limit'));
+        // }
 
         let data;
         if(res){
@@ -80,11 +80,20 @@ export default class riotLimiter{
         return new Promise(resolve => setTimeout(resolve, seconds * 1000))
     }
 
-    #setRateLimits(rateString){
-        let [rate1, rate2] = this.#getRateLimitHeader(rateString);
+    async setRateLimits(){
+        let res = await fetch(`https://na1.api.riotgames.com/lol/status/v3/shard-data?api_key=${process.env.RIOT_KEY}`);
+        let [rate1, rate2] = this.#getRateLimitHeader(res.headers.get('X-App-Rate-Limit'));
         this.#callsPerSecond = rate1[0];
         this.#maxCallsTimeSeconds = rate2[1];
         this.#limiterMaxCalls = rate2[0];
+
+        this.#limiter = new Bottleneck({
+            reservoir: this.#callsPerSecond,
+            reservoirRefreshAmount: this.#callsPerSecond,
+            reservoirRefreshInterval: 1.25 * (1000),
+            maxConcurrent: this.#callsPerSecond,
+            minTime: 1.25 * (1000) / this.#callsPerSecond,
+        })
     }
 
     #getRateLimitHeader(rateString){

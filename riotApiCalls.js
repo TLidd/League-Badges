@@ -3,6 +3,10 @@ import riotLimiter from './riotLimiter.js';
 
 let rLimiter = new riotLimiter();
 
+export async function setRiotLimiter(){
+    rLimiter.setRateLimits();
+}
+
 export async function getSummoner(summonerName){
     let summonerInfo;
     if(summonerName.length >= 3){
