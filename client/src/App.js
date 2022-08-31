@@ -6,7 +6,7 @@ import SummonerLobby from './components/SummonerLobby';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
 
 function App() {
-
+  const reload = () => window.location.reload();
   return (
     <div className="App">
       <Router>
@@ -14,6 +14,7 @@ function App() {
           <Route exact path="" element={<SummonerForm />} />
           <Route exact path={`/:name`} element={<SummonerPage />} />
           <Route exact path={`/:name/ActiveGame/*`} element={<SummonerLobby />} />
+          <Route exact path={'//riot.txt'} onEnter={reload} />
           <Route element={<SummonerForm />}/>
         </Routes>
       </Router>
