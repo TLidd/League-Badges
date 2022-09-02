@@ -28,7 +28,7 @@ export default class riotLimiter{
         this.#maxCallsTimeSeconds = maxCallsTimeSeconds;
     }
 
-    async getFetchData(fetchURL){
+    async getFetchData(fetchURL, retries = 3){
         if(this.#currentFetchCalls == 0 || !this.#timerSet){
             this.#setTimer();
         }
@@ -44,8 +44,8 @@ export default class riotLimiter{
             }
         });
 
-        if(!res){
-            return this.getFetchData(fetchURL);
+        if(!res && retries != 0){
+            return this.getFetchData(fetchURL, retries - 1);
         }
 
         let data;
@@ -53,9 +53,9 @@ export default class riotLimiter{
             data = await res.json();
         }
 
-        if(data?.status?.status_code == 429){
+        if(data?.status?.status_code == 429 && retries != 0){
             console.log(data);
-            return this.getFetchData(fetchURL);
+            return this.getFetchData(fetchURL, retries - 1);
         }
 
         return data;
