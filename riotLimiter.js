@@ -44,8 +44,8 @@ export default class riotLimiter{
             }
         });
 
-        if(!res && retries != 0){
-            return this.getFetchData(fetchURL, retries - 1);
+        if(!res){
+            return this.getFetchData(fetchURL);
         }
 
         let data;
