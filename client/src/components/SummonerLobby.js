@@ -40,8 +40,9 @@ const SummonerLobby = () => {
 
     useEffect(() => {
         if(lobbyQuery){
-            if(loadPercent !== 100){
-                setLoadPercent(lobbyQuery.filter(result => !result.isLoading).length * 10);
+            if(loadPercent <= 100){
+                //just for a smoother look to the loading bar
+                setLoadPercent((lobbyQuery.filter(result => !result.isLoading).length * 10) + 9);
             }
             if(lobbyQuery.every(result => result.data)){
                 if(lobbyQuery.length === 10){
