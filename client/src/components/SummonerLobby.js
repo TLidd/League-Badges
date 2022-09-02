@@ -6,6 +6,7 @@ import "../Stylesheets/SummonerLobby.css"
 import useGetFetch from "./useGetFetch";
 import ActiveGame from "./ActiveGame";
 import NavBar from "./NavBar";
+import Loading from "./Loading";
 
 const fetchPlayerData = async (name) => {
     const res = await fetch(`/summonerData/${name}`);
@@ -16,6 +17,8 @@ const SummonerLobby = () => {
     let {name} = useParams();
 
     let [loading, setLoading] = useState(true);
+
+    let [loadPercent, setLoadPercent] = useState(0);
     
     //get the lobby list of names to process the queries of each champion to cache.
     let lobby = useGetFetch(`/getLobbyList/${name}`);
@@ -37,20 +40,24 @@ const SummonerLobby = () => {
 
     useEffect(() => {
         if(lobbyQuery){
+            if(loadPercent !== 100){
+                setLoadPercent(lobbyQuery.filter(result => !result.isLoading).length * 10);
+            }
             if(lobbyQuery.every(result => result.data)){
                 if(lobbyQuery.length === 10){
                     if(!lobbyQuery.some(result => result.isLoading)){
+                        setLoadPercent(100);
                         setLoading(false);
                     }
                 }
             }
         }
-    }, [lobbyQuery])
+    }, [lobbyQuery, loadPercent])
 
     let team1 = [];
     let team2 = [];
     if(loading && !lobby.error){
-        return <img className="loading-gif" src={require("../assets/loading2.gif")} alt="loading..." />
+        return <Loading loadPercent={loadPercent}/>
     }
     else if(!loading){
         if(lobbyQuery.length === 10){

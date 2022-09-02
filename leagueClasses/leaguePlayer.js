@@ -41,15 +41,17 @@ class leaguePlayer{
             if(match?.hasOwnProperty('info')){
                 if(match?.info?.participants){
                     let player = this.#getPlayerMatchStats(match.info.participants);
-                    this.playedRoles[player.teamPosition] += 1;
+                    if(player){
+                        this.playedRoles[player.teamPosition] += 1;
 
-                    let champion = player.championName;
+                        let champion = player.championName;
 
-                    if(this.playerData.champions[champion] === undefined){
-                        this.playerData.champions[champion] = new championHistory(champion);
+                        if(this.playerData.champions[champion] === undefined){
+                            this.playerData.champions[champion] = new championHistory(champion);
+                        }
+
+                        this.playerData.champions[champion].processChampData(match);
                     }
-
-                    this.playerData.champions[champion].processChampData(match);
                 }
             }
         }
@@ -61,7 +63,11 @@ class leaguePlayer{
     //get the data of the player from the player's match
     #getPlayerMatchStats(players){
         let playerStats = players.find(player => {
-            if(player.puuid == this.puuid) return player;
+            if(player.puuid == this.puuid){
+                return player;
+            }else if(player.summonerName == this.name){
+                return player;
+            }
         });
         return playerStats;
     }
