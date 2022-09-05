@@ -23,23 +23,22 @@ const SummonerForm = () => {
     }
     
     return (
-        <div className="form-center">
-            <form onSubmit={formSubmit}>
-                <div className="text">
+        <>
+            <div className="form-background">
+                <img src={require("../assets/mordekaiser.gif")} alt=""/>
+            </div>
+            <div className="form-container">
+                <form onSubmit={formSubmit}>
                     <label htmlFor="summonerName">Summoner Name:</label>
-                </div>
-                <div>
-                    <input className="textInput" maxLength={16} type="text" id="summonerName" ref={textInput}></input>
-                </div>
-                <div>
+                    <input className="textInput" maxLength={16} style={{"fontSize":"25px"}} type="text" id="summonerName" ref={textInput}></input>
                     <input className="button" type="submit" value="Find Summoner"></input>
-                </div>
-            </form>
-            {isPending && formName.length >= 3 && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
-            {data && data?.gameId && !isPending && <Navigate to={`./${formName}/ActiveGame`} />}
-            {/* if summoner doesn't exist or not in game CheckSummoner */}
-            {error && formName.length >= 3 && !isPending && <CheckSummoner formName={formName} data={error}/>}
-        </div>
+                </form>
+                {isPending && formName.length >= 3 && <img className="loadingGif" src={require("../assets/loading.gif")} alt="loading..."/>}
+                {data && data?.gameId && !isPending && <Navigate to={`./${formName}/ActiveGame`} />}
+                {/* if summoner doesn't exist or not in game CheckSummoner */}
+                {error && formName.length >= 3 && !isPending && <CheckSummoner formName={formName} data={error}/>}
+            </div>
+        </>
     )
 }
 

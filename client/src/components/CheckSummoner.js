@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {Navigate} from "react-router-dom";
 
-import "../Stylesheets/NoSummoner.css"
+import "../Stylesheets/CheckSummoner.css"
 
 // check if summoner exists if not display does not exist
 const NoSummoner = ({formName, data}) => {
