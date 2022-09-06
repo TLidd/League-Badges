@@ -27,12 +27,6 @@
     aspect-ratio: 1/1;
 }
 
-.team-title{
-    font-weight: bold;
-    border-radius: 15px;
-    display: inline-block;
-}
-
 .blue-team{
     background-color: #020e1e7c;
 }

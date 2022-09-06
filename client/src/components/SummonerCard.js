@@ -20,15 +20,18 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
     <div className="card">
       <div className="namePlate">
         {activeGame ? 
-          <Link to={`/${summonerName}`} className={`name ${highlight}`}>
+          <Link to={`/${summonerName}`} className={`name ${highlight}`} style={{textDecoration: 'none'}}>
             {summonerName} 
           </Link>
           :
           summonerName
         }
       </div>
-      {sumRole && <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>}
-      {sumBadges && 
+      <div className="played-role">
+        <div className="role-text">Most Played Role</div>
+        {sumRole && <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>}
+      </div>
+      {/* {sumBadges && 
           <div className="grid-container">
             <div className="badges">
               {
@@ -40,7 +43,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
               }
             </div>
           </div>
-      }
+      } */}
     </div>
   )
 }
