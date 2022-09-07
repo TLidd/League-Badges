@@ -7,6 +7,7 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
 
 function App() {
   const reload = () => window.location.reload();
+  document.body.style.overflow = "hidden"
   return (
     <div className="App">
       <Router>

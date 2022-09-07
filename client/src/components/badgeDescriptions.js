@@ -8,3 +8,11 @@ export let badgeDescriptions = {
     goldEarned: "Gold earned:",
     firstBloods: "First Bloods in game:",
 }
+
+export let playerRoles = {
+    BOTTOM: "Bottom Carry",
+    TOP: "Top Lane",
+    MIDDLE: "Mid Lane",
+    JUNGLE: "Jungle",
+    UTILITY: "Support"
+}

@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import "../Stylesheets/SummonerCard.css"
-import { badgeDescriptions } from "./badgeDescriptions";
+import { badgeDescriptions, playerRoles } from "./badgeDescriptions";
 
 const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
   let {name} = useParams();
@@ -29,9 +29,9 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
       </div>
       <div className="played-role">
         <div className="role-text">Most Played Role</div>
-        {sumRole && <img title="Most Played Role" src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>}
+        {sumRole && <img title={playerRoles[sumRole]} src={require(`../assets/roleIcons/${sumRole}.png`)} alt="Summoner Role" className="roleIcon"/>}
       </div>
-      {/* {sumBadges && 
+      {sumBadges && 
           <div className="grid-container">
             <div className="badges">
               {
@@ -43,7 +43,7 @@ const SummonerCard = ({sumName, sumRole, sumBadges, activeGame}) => {
               }
             </div>
           </div>
-      } */}
+      }
     </div>
   )
 }
